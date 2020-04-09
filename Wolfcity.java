@@ -1,8 +1,4 @@
-package wolfpackdb;
-// import wolfpackdb.User;
-// import wolfpackdb.User;
 import java.sql.*;
-
 public class Wolfcity {
 
 	public static void main(final String[] args) {

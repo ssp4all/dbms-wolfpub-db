@@ -1,4 +1,3 @@
-package wolfpackdb;
 import java.util.Scanner;
 import java.sql.*;
 

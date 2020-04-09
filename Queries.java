@@ -29,7 +29,7 @@ public class Queries {
 			s1.setString(4, type);
 			s1.setString(5, periodicity);
 
-			if (s1.executeUpdate == 1)
+			if (s1.executeUpdate() == 1)
 				System.out.println("Publication Info added");
 			else
 				System.out.println("Sorry the Staff info couldn't be added");
@@ -110,7 +110,7 @@ public class Queries {
 					System.out.println("Couldn't update the Publication Info");
 			}
 			else{
-				System.out.println("Invalid Input!")
+				System.out.println("Invalid Input!");
 			}
 		} 
 		catch (Exception whatever) {
