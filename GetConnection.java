@@ -21,7 +21,8 @@ public class GetConnection {
             return connection;
         } 
         catch (final Exception e) {
-            System.out.println(e);
+            System.out.println("Error >>" + e);
+            // System.out.println(e);
         }
         return null;
     }

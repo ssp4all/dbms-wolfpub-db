@@ -6,52 +6,51 @@ public class User {
 	// About to add more details here...
 	Connection conn;
 	int role;
-	String id;
 	int operation;
 	Scanner in;
 
 	User() {
 		// This is a User's constructor
+		this.role = 0;
 		this.conn = (Connection) GetConnection.connection();
 		this.operation = 0;
 		this.in = new Scanner(System.in);
 	}
 
-	int choose_role() {
-		int chosen_role = 0;
+	void choose_role() {
+		// Boolean flag = true;
 		do {
 			System.out.println(
 					"\nWho would you like to log in as? Enter"+
 						"\n1: Manager" +
 							"\n2: Contributor" +
-								"\n3: Exit");
+								// "\n3: Want to change you role?" +
+									"\n99: Exit\n");
 			System.out.println("\nEnter you choice: ");
-			chosen_role = this.in.nextInt();
-			// this.in.close();
-			if (chosen_role == 3){
-				System.out.println("\nExiting...");
-				break;
+			this.role = this.in.nextInt();
+			if (this.role == 99){
+				System.out.println("Thank You\nExiting...");
+				System.exit(1);
+				// break;
 			}
-			if (chosen_role >= 1 || chosen_role < 3) {
-				System.out.println("Role chosen successfully");
+			if (this.role == 1 || this.role == 2) {
+				System.out.println("Role chosen successfully!");
+				this.list_of_operations();
 			} 
+			// else if (this.role == 3){
+			// 	return flag;
+			// }
 			else {
-				System.out.println("Incorrect input! Please enter a number between 1 and 4.");
+				System.out.println("Incorrect input!");
 			}
 
-		} while (chosen_role < 1 || chosen_role > 3);
-		
-		return chosen_role;
+		} while (this.role >= 1 || this.role < 3);
 	}
 
 	void list_of_operations() {
 		switch (this.role) {
 			case 1:
-				System.out.println("Hello Admin");
-				break;
-
-			case 2:
-				System.out.println("Hello Managers, what would you like to do ?");
+				System.out.println("Hello Manager\n");
 				// Enter all the operations managers could perform
 				System.out.println("1: Enter new Publication Information");
 				System.out.println("2: Update Publication Information");
@@ -71,12 +70,12 @@ public class User {
 				System.out.println("14: Enter payment info for Contributors");
 				System.out.println("15: Track payment info");
 
-				System.out.println("2: Enter new Distributor");
-				System.out.println("2: Update Distributor Information");
-				System.out.println("2: Delete a Distributor");
-				System.out.println("2: Enter new order Information for a distributor");
-				System.out.println("2: Bill Distributor for an order");
-				System.out.println("2: Change outstanding balance on receipt of payment");
+				System.out.println("16: Enter new Distributor");
+				System.out.println("17: Update Distributor Information");
+				System.out.println("18: Delete a Distributor");
+				System.out.println("19: Enter new order Information for a distributor");
+				System.out.println("20: Bill Distributor for an order");
+				System.out.println("21: Change outstanding balance on receipt of payment");
 
 				System.out.println(
 						"22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
@@ -88,27 +87,33 @@ public class User {
 						"26: Calculate total revenue (since inception) per city, per distributor, and per location");
 				System.out.println(
 						"27: Calculate total payments to the editors and authors, per time period and per work type");
-
+				
 				break;
 
-			case 3:
-				System.out.println("Hello Contributors, what are you doing today ?");
+			case 2:
+				System.out.println("Hello Contributors!");
 				// Enter all the operations Contributors could perform
 				System.out.println("28: View Publication info Contributor is reponsible for");
-				System.out.println("4: Add Articles to periodic Publication");
-				System.out.println("5: Delete articles from periodic Publication");
-				System.out.println("6: Add Chapters to Book");
-				System.out.println("7: Delete chapters from Book");
-				break;
-			default:
-				System.out.println("Default");
+				System.out.println("29: Add Articles to periodic Publication");
+				System.out.println("30: Delete articles from periodic Publication");
+				System.out.println("31: Add Chapters to Book");
+				System.out.println("32: Delete chapters from Book");
 				break;
 			
+			
+			case 99:
+				System.out.println("\nThank You!\nExiting...");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Invalid Input!");
+				break;
 		}
 		this.operation = this.in.nextInt();
+		this.run_query();
 	}
 
-	public void run_query() {
+	void run_query() {
 		switch (this.operation) {
 			case 1:
 				Queries.enter_new_publication(this);
@@ -116,7 +121,8 @@ public class User {
 			case 2:
 				Queries.update_publication_info(this);
 				break;
-
+			default:
+				break;
 		}
 	}
 	

@@ -1,4 +1,4 @@
-import java.sql.ResultSet;
+// import java.sql.ResultSet;
 import java.sql.*;
 
 public class Queries {
@@ -32,9 +32,9 @@ public class Queries {
 			if (s1.executeUpdate() == 1)
 				System.out.println("Publication Info added");
 			else
-				System.out.println("Sorry the Staff info couldn't be added");
+				System.out.println("Sorry, the Publication info. couldn't be added");
 		} catch (Exception whatever) {
-			System.out.println(whatever);
+			System.out.println("Error >>>" + whatever);
 		}
 	}
 
@@ -42,18 +42,17 @@ public class Queries {
 
 		PreparedStatement s2 = null;
 		try {
-			System.out.println("Enter the publication_id of the record to be updated");
+			System.out.println("\nEnter the publication_id of the record to be updated:");
 
 			String pub_id = p.in.nextLine();
 			System.out.println(
-					"What do you want to update? %n 1) title %n 2) typical_topics %n 3) type %n 4) periodicity %n %n");
+					"What do you want to update? \n1) Title \n 2) Typical_topics \n3) Type \n 4) Periodicity \n");
 			int ch = p.in.nextInt();
 
 			if (ch == 1) {
 				System.out.println("Enter a new title: ");
 				// p.in.nextLine();
 				String title1 = p.in.nextLine();
-
 				s2 = (PreparedStatement) p.conn
 						.prepareStatement("UPDATE Publication SET title = ? WHERE publication_id = ?");
 
@@ -113,8 +112,8 @@ public class Queries {
 				System.out.println("Invalid Input!");
 			}
 		} 
-		catch (Exception whatever) {
-			System.out.println(whatever);
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
 		}
 	}
 

@@ -1,27 +1,20 @@
-import java.sql.*;
+// import java.sql.*;
 public class Wolfcity {
 
 	public static void main(final String[] args) {
-		System.out.println("Welcome to the Wolfcity Publishing House\n");
+		System.out.println("##################################");
+		System.out.println("\nWelcome to the Wolfcity Publishing House\n");
+		System.out.println("##################################");
 
 		User r = new User();
-		Boolean flag = true;
-
-		while (flag) {
-			r.role = r.choose_role();
-
-			while (r.role != 0) {
-				r.list_of_operations();
-				r.run_query();
-				System.out.println("Press Enter to continue");
-			}
-		}
+		// Boolean flag = true;
+		r.choose_role();
 		try {
 			r.conn.close();
 			r.in.close();
 		} 
 		catch (final Exception e) {
-			System.out.println("Connection could not be closed!" + e);
+			System.out.println("WARNING: Connection could not be closed!\n" + e);
 		}
 		System.out.println("Thank You!");
 
