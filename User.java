@@ -3,38 +3,38 @@ import java.sql.*;
 
 import java.util.Scanner;
 
-public class User{
+public class User {
 	Connection conn;
 	int role;
 	string id;
 	int operation;
 	Scanner in;
 
-	public User(){
+	public User() {
 		this.conn = (Connection) GetConnection.connection();
 		this.operation = 0;
 		this.in = new Scanner(System.in);
 	}
 
-	public static int choose_role(){
+	public static int choose_role() {
 		int chosen_role = 0;
-		do{
-			System.out.println("Who would you like to log in as?\npress 1 for Admin, 2 for Managers, 3 for Contributor\n");
-			Scanner in = new Scanner(System.in); 
+		do {
+			System.out.println(
+					"Who would you like to log in as?\npress 1 for Admin, 2 for Managers, 3 for Contributor\n");
+			Scanner in = new Scanner(System.in);
 			chosen_role = in.nextInt();
-			if(chosen_role >= 1 || chosen_role <= 3){
+			if (chosen_role >= 1 || chosen_role <= 3) {
 				System.out.println("Role chosen successfully");
-			}
-			else{
+			} else {
 				System.out.println("Incorrect input. Please enter a number between 1 and 4.");
 			}
-			
-		}while(role < 1 || role > 3);
+
+		} while (role < 1 || role > 3);
 		return chosen_role;
 	}
 
-	public void list_of_operations(){
-		switch(this.role){
+	public void list_of_operations() {
+		switch (this.role) {
 			case 1:
 				System.out.println("Hello Admin");
 				break;
@@ -45,9 +45,6 @@ public class User{
 				System.out.println("1: Enter new Publication Information");
 				System.out.println("2: Update Publication Information");
 				System.out.println("3: Assign Editors to Publication");
-				
-
-
 
 				System.out.println("6: Enter a new book edition of a Publication");
 				System.out.println("7: Enter a new issue of a Publication");
@@ -63,8 +60,6 @@ public class User{
 				System.out.println("14: Enter payment info for Contributors");
 				System.out.println("15: Track payment info");
 
-
-
 				System.out.println("2: Enter new Distributor");
 				System.out.println("2: Update Distributor Information");
 				System.out.println("2: Delete a Distributor");
@@ -72,17 +67,16 @@ public class User{
 				System.out.println("2: Bill Distributor for an order");
 				System.out.println("2: Change outstanding balance on receipt of payment");
 
-
-
-				System.out.println("22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
+				System.out.println(
+						"22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
 				System.out.println("23: Total revenue of publishing house");
 				System.out.println("24: Total expenses of publishing house");
 				System.out.println("25: Get total current number of distributors");
 				System.out.println("25: Get total current number of distributors");
-				System.out.println("26: Calculate total revenue (since inception) per city, per distributor, and per location");
-				System.out.println("27: Calculate total payments to the editors and authors, per time period and per work type");
-
-
+				System.out.println(
+						"26: Calculate total revenue (since inception) per city, per distributor, and per location");
+				System.out.println(
+						"27: Calculate total payments to the editors and authors, per time period and per work type");
 
 				break;
 
@@ -96,13 +90,12 @@ public class User{
 				System.out.println("7: Delete chapters from Book");
 				break;
 
-
-			this.operation = in.nextInt();
+				this.operation = in.nextInt();
 		}
 	}
 
-	public void run_query(){
-		switch(this.operation){
+	public void run_query() {
+		switch (this.operation) {
 			case 1:
 				Queries.enter_new_publication(this);
 				break;
@@ -112,6 +105,5 @@ public class User{
 
 		}
 	}
-
 
 }

@@ -8,21 +8,19 @@ public class Wolfcity {
 		User r = new User();
 		Boolean flag = true;
 
-
-		while(flag){
+		while (flag) {
 			r.role = User.choose_role();
 
-			while(p.role!=0){
+			while (p.role != 0) {
 				r.list_of_operations();
 				r.run_query();
 				System.out.println("Press Enter to continue");
 			}
 		}
-		try{
+		try {
 			r.conn.close();
 			r.in.close();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Connection could not be closed." + e);
 		}
 		System.out.println("Closed gracefully. Good Bye!");
