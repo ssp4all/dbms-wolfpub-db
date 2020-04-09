@@ -1,17 +1,19 @@
-package wolfpackdb;
-
 import java.sql.ResultSet;
 import java.sql.*;
 
 public class Queries {
 	public static void enter_new_publication(User p) {
-
+		// CRUD for a publication details
 		PreparedStatement s1 = null;
 
 		try {
 			p.in.nextLine();
-			System.out.println("Enter following details: %n " + "1) publication_id %n " + "2) title %n "
-					+ "3) typical_topics %n " + "4) type %n 5) periodicity %n %n");
+			System.out.println("Enter following details: \n " + 
+					"1) Publication_id \n " + 
+						"2) Title \n " +
+							"3) Typical topics \n " + 
+								"4) Type \n "+ 
+									"5) Periodicity \n");
 
 			String publication_id = p.in.nextLine();
 			String title = p.in.nextLine();
@@ -45,11 +47,11 @@ public class Queries {
 			String pub_id = p.in.nextLine();
 			System.out.println(
 					"What do you want to update? %n 1) title %n 2) typical_topics %n 3) type %n 4) periodicity %n %n");
-			String ch = p.in.nextLine();
+			int ch = p.in.nextInt();
 
 			if (ch == 1) {
-				System.out.println("Enter the new title : ");
-				p.in.nextLine();
+				System.out.println("Enter a new title: ");
+				// p.in.nextLine();
 				String title1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -61,9 +63,10 @@ public class Queries {
 					System.out.println("Publication Info Updated!");
 				else
 					System.out.println("Couldn't update the Publication Info");
-			} else if (ch == 2) {
+			} 
+			else if (ch == 2) {
 				System.out.println("Enter the new typical_topics : ");
-				p.in.nextLine();
+				// p.in.nextLine();
 				String tt1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -75,9 +78,10 @@ public class Queries {
 					System.out.println("Publication Info Updated!");
 				else
 					System.out.println("Couldn't update the Publication Info");
-			} else if (ch == 3) {
+			} 
+			else if (ch == 3) {
 				System.out.println("Enter the new type : ");
-				p.in.nextLine();
+				// p.in.nextLine();
 				String type1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -89,9 +93,10 @@ public class Queries {
 					System.out.println("Publication Info Updated!");
 				else
 					System.out.println("Couldn't update the Publication Info");
-			} else if (ch == 4) {
+			} 
+			else if (ch == 4) {
 				System.out.println("Enter the new periodicity : ");
-				p.in.nextLine();
+				// p.in.nextLine();
 				String period1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -104,7 +109,11 @@ public class Queries {
 				else
 					System.out.println("Couldn't update the Publication Info");
 			}
-		} catch (Exception whatever) {
+			else{
+				System.out.println("Invalid Input!")
+			}
+		} 
+		catch (Exception whatever) {
 			System.out.println(whatever);
 		}
 	}

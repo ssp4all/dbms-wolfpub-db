@@ -2,9 +2,9 @@ package wolfpackdb;
 import java.util.Scanner;
 import java.sql.*;
 
-import java.util.Scanner;
 
 public class User {
+	// About to add more details here...
 	Connection conn;
 	int role;
 	String id;
@@ -20,7 +20,6 @@ public class User {
 
 	int choose_role() {
 		int chosen_role = 0;
-		// final Scanner in = new Scanner(System.in);
 		do {
 			System.out.println(
 					"\nWho would you like to log in as? Enter"+
@@ -29,7 +28,7 @@ public class User {
 								"\n3: Exit");
 			System.out.println("\nEnter you choice: ");
 			chosen_role = this.in.nextInt();
-			this.in.close();
+			// this.in.close();
 			if (chosen_role == 3){
 				System.out.println("\nExiting...");
 				break;
@@ -102,9 +101,12 @@ public class User {
 				System.out.println("6: Add Chapters to Book");
 				System.out.println("7: Delete chapters from Book");
 				break;
-
-				this.operation = in.nextInt();
+			default:
+				System.out.println("Default");
+				break;
+			
 		}
+		this.operation = this.in.nextInt();
 	}
 
 	public void run_query() {
@@ -118,5 +120,6 @@ public class User {
 
 		}
 	}
+	
 
 }
