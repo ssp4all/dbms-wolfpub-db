@@ -1,3 +1,5 @@
+package wolfpackdb;
+
 import java.sql.*;
 
 public class Wolfcity {

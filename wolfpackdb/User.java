@@ -1,3 +1,4 @@
+package wolfpackdb;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -6,34 +7,46 @@ import java.util.Scanner;
 public class User {
 	Connection conn;
 	int role;
-	string id;
+	String id;
 	int operation;
 	Scanner in;
 
-	public User() {
+	User() {
+		// This is a User's constructor
 		this.conn = (Connection) GetConnection.connection();
 		this.operation = 0;
 		this.in = new Scanner(System.in);
 	}
 
-	public static int choose_role() {
+	int choose_role() {
 		int chosen_role = 0;
+		// final Scanner in = new Scanner(System.in);
 		do {
 			System.out.println(
-					"Who would you like to log in as?\npress 1 for Admin, 2 for Managers, 3 for Contributor\n");
-			Scanner in = new Scanner(System.in);
-			chosen_role = in.nextInt();
-			if (chosen_role >= 1 || chosen_role <= 3) {
+					"\nWho would you like to log in as? Enter"+
+						"\n1: Manager" +
+							"\n2: Contributor" +
+								"\n3: Exit");
+			System.out.println("\nEnter you choice: ");
+			chosen_role = this.in.nextInt();
+			this.in.close();
+			if (chosen_role == 3){
+				System.out.println("\nExiting...");
+				break;
+			}
+			if (chosen_role >= 1 || chosen_role < 3) {
 				System.out.println("Role chosen successfully");
-			} else {
-				System.out.println("Incorrect input. Please enter a number between 1 and 4.");
+			} 
+			else {
+				System.out.println("Incorrect input! Please enter a number between 1 and 4.");
 			}
 
-		} while (role < 1 || role > 3);
+		} while (chosen_role < 1 || chosen_role > 3);
+		
 		return chosen_role;
 	}
 
-	public void list_of_operations() {
+	void list_of_operations() {
 		switch (this.role) {
 			case 1:
 				System.out.println("Hello Admin");
