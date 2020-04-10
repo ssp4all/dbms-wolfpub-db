@@ -303,15 +303,16 @@ public class Queries {
 				// String doc = p.in.nextLine();
 
 				s12 = (PreparedStatement) p.conn.prepareStatement(
-					"SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN Publication P ON P.publication_id = B.publication_id  WHERE P.type = 'book' AND date_of_creation = '2018-10-10';");
+						"SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN Publication P ON P.publication_id = B.publication_id  WHERE P.type = 'book' AND date_of_creation = '2018-10-10';");
 				// s12.setString(1, doc);
 				ResultSet rs = s12.executeQuery();
 				System.out.println("###################################");
 				System.out.println("Title\tPublication Id\tTypical Topics");
 				System.out.println("###################################");
-				
-				while(rs.next()){
-					System.out.printf("%s\t%s\t%s",rs.getString("P.title"), rs.getString("P.publication_id"),rs.getString("P.typical_topics"));
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s\t%s", rs.getString("P.title"), rs.getString("P.publication_id"),
+							rs.getString("P.typical_topics"));
 					System.out.println();
 				}
 			} else if (ch == 2) {
@@ -377,4 +378,41 @@ public class Queries {
 	// System.out.println("Error >>" + e);
 	// }
 	// }
+
+	public static void viewPubInfoReponsible(User p) {
+		PreparedStatement s18 = null;
+		try {
+			System.out.println("\nEnter the contributor id whose publication partners you want to know about: ");
+			String contributorId = p.in.nextLine();
+			s18 = (PreparedStatement) p.conn.prepareStatement(
+					"SELECT * FROM Publication WHERE publication_id IN (SELECT publication_id FROM worksFor WHERE contributor_id = ?");
+			s18.setString(1, contributorId);
+
+			if (s18.executeUpdate() == 1)
+				System.out.println("Info. Retr");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void addArticles(User p) {
+		PreparedStatement s19 = null;
+		try {
+			System.out.println("\nEnter the Article id and Issue id in which article is to inserted : ");
+			String articleId = p.in.nextLine();
+			String issueId = p.in.nextLine();
+			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO consistof VALUES (?,?)");
+			s19.setString(1, articleId);
+			s19.setString(2, issueId);
+
+			if (s19.executeUpdate() == 1)
+				System.out.println("Info. added");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
 }
