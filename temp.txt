@@ -1,0 +1,3 @@
+scp User.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar2
+scp Wolfcity.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar2
+scp Queries.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar2

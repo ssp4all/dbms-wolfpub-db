@@ -22,7 +22,7 @@ public class Queries {
 			String periodicity = p.in.nextLine();
 
 			s1 = (PreparedStatement) p.conn.prepareStatement(
-					"INSERT INTO Publication (publication_id, title, typical_topics, type, periodicity) VALUES (?,?,?,?,?) ");
+					"INSERT INTO Publication (publication_id, title, typical_topics, type, periodicity) VALUES (?,?,?,?,?)");
 			s1.setString(1, publication_id);
 			s1.setString(2, title);
 			s1.setString(3, typical_topics);
@@ -33,7 +33,8 @@ public class Queries {
 				System.out.println("Publication Info added");
 			else
 				System.out.println("Sorry, the Publication info. couldn't be added");
-		} catch (Exception whatever) {
+		} 
+		catch (Exception whatever) {
 			System.out.println("Error >>>" + whatever);
 		}
 	}

@@ -35,10 +35,33 @@
 
 ### Solution
 
-    Working going on...
+Execution Steps
+
+File transfer
+    
+``` scp GetConnection.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar```
+
+MariaDB connectivity
+
+``` ssh spawar2@remote.eos.ncsu.edu```
+
+Enter Unity-Id password
+
+```Add Mysql and Add JDK```
+
+```mysql -u atiwari4 -p -h classdb2.csc.ncsu.edu```
+dbmsscammers
+Use unity-id as a database
+
+```Use atiwari4```
+
+select * from Publication;
+
 
 ### Contributors
 - Suraj Pawar
 - Amit Ghetiya
 - Ankit Tiwari
 - Rishal Shah
+
+scp -r dbms-wolfpub-db spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar

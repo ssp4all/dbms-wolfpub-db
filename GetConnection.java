@@ -27,6 +27,11 @@ public class GetConnection {
         return null;
     }
 
+    public static void main(String args[]){
+        Connection con = connection();
+        System.out.println(con);
+    }
+
     static void close(final Connection connection) {
         if (connection != null) {
             try {
@@ -35,6 +40,8 @@ public class GetConnection {
             catch (final Throwable whatever) {
             }
         }
+
+    
     }
 
     static void close(final Statement statement) {

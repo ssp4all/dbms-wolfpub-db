@@ -87,7 +87,6 @@ public class User {
 						"26: Calculate total revenue (since inception) per city, per distributor, and per location");
 				System.out.println(
 						"27: Calculate total payments to the editors and authors, per time period and per work type");
-				
 				break;
 
 			case 2:
@@ -100,11 +99,11 @@ public class User {
 				System.out.println("32: Delete chapters from Book");
 				break;
 			
-			
 			case 99:
 				System.out.println("\nThank You!\nExiting...");
 				System.exit(0);
 				break;
+				
 			default:
 				System.out.println("Invalid Input!");
 				break;
