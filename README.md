@@ -37,9 +37,13 @@
 
 Execution Steps
 
+Start
+```javac Wolfcity.java ```
+```java Wolfcity```
+
 File transfer
     
-``` scp GetConnection.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar```
+``` scp GetConnection.java spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar2```
 
 MariaDB connectivity
 
@@ -59,6 +63,15 @@ Use unity-id as a database
 
 select * from Publication;
 
+TO transfer file betweeb remote and local
+```scp  spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar2/atiwari4.sql  db.sql```
+
+Import a database
+from terminal
+```mysql -u test -p wolfpubdb < db.sql```
+
+Move to the DB from terminal
+```mysql -u test -p wolfpubdb```
 
 ### Contributors
 - Suraj Pawar
@@ -67,3 +80,4 @@ select * from Publication;
 - Rishal Shah
 
 scp -r dbms-wolfpub-db spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar
+
