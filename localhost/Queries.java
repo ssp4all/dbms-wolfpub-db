@@ -389,7 +389,7 @@ public class Queries {
 			s18.setString(1, contributorId);
 
 			if (s18.executeUpdate() == 1)
-				System.out.println("Info. Retr");
+				System.out.println("Info. Retrieved");
 			else
 				System.out.println("Sorry, the info. couldn't be added");
 		} catch (Exception e) {
@@ -403,7 +403,7 @@ public class Queries {
 			System.out.println("\nEnter the Article id and Issue id in which article is to inserted : ");
 			String articleId = p.in.nextLine();
 			String issueId = p.in.nextLine();
-			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO consistof VALUES (?,?)");
+			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO consistOf VALUES (?,?)");
 			s19.setString(1, articleId);
 			s19.setString(2, issueId);
 
@@ -415,4 +415,63 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+
+	public static void deleteArticle(User p) {
+		PreparedStatement s20 = null;
+		try {
+			System.out.println("\nEnter the article id and issue id from which an article is to be deleted : ");
+			String articleId = p.in.nextLine();
+			String issueId = p.in.nextLine();
+			s20 = (PreparedStatement) p.conn
+					.prepareStatement("DELETE FROM consistOf WHERE article_id = ? AND issue_id = ?");
+			s20.setString(1, articleId);
+			s20.setString(2, issueId);
+
+			if (s20.executeUpdate() == 1)
+				System.out.println("Info. Deleted");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void addChapter(User p) {
+		PreparedStatement s21 = null;
+		try {
+			System.out.println("\nEnter the Chapter id and Book ISBN in which chapter is to inserted : ");
+			String chapterId = p.in.nextLine();
+			String BookISBN = p.in.nextLine();
+			s21 = (PreparedStatement) p.conn.prepareStatement(
+					"INSERT INTO Chapter VALUES (9, 9, 'Black Widow', 'The best movie of 2020', 987654321);");
+			s21.setString(1, chapterId);
+			s21.setString(2, BookISBN);
+
+			if (s21.executeUpdate() == 1)
+				System.out.println("Info. added");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void deleteChapter(User p) {
+		PreparedStatement s20 = null;
+		try {
+			System.out.println("\nEnter the Chapter id and Book ISBN from which a chapter is to be deleted : ");
+			String chapterId = p.in.nextLine();
+			String BookISBN = p.in.nextLine();
+			s22 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM Chapter WHERE chapter = ?");
+			s22.setString(1, chapterId);
+
+			if (s22.executeUpdate() == 1)
+				System.out.println("Info. Deleted");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
 }
