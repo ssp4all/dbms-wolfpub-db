@@ -45,15 +45,17 @@ MariaDB connectivity
 
 ``` ssh spawar2@remote.eos.ncsu.edu```
 
-Enter Unity-Id password
+Enter your Unity-Id password
 
-```Add Mysql and Add JDK```
+```add mysql```
+
+```add jdk```
 
 ```mysql -u atiwari4 -p -h classdb2.csc.ncsu.edu```
 dbmsscammers
 Use unity-id as a database
 
-```Use atiwari4```
+```use atiwari4```
 
 select * from Publication;
 

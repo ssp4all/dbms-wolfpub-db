@@ -2,8 +2,8 @@
 import java.sql.*;
 
 public class Queries {
-	public static void enter_new_publication(User p) {
-		// CRUD for a publication details
+	public static void enterNewPublication(User p) {
+		/*CRUD for a publication details*/
 		PreparedStatement s1 = null;
 
 		try {
@@ -34,12 +34,12 @@ public class Queries {
 			else
 				System.out.println("Sorry, the Publication info. couldn't be added");
 		} 
-		catch (Exception whatever) {
-			System.out.println("Error >>>" + whatever);
+		catch (Exception e) {
+			System.out.println("Error >>>" + e);
 		}
 	}
 
-	public static void update_publication_info(User p) {
+	public static void updatePublication(User p) {
 
 		PreparedStatement s2 = null;
 		try {
@@ -47,7 +47,7 @@ public class Queries {
 
 			String pub_id = p.in.nextLine();
 			System.out.println(
-					"What do you want to update? \n1) Title \n 2) Typical_topics \n3) Type \n 4) Periodicity \n");
+					"What do you want to update? \n1) Title \n 2) Typical Topics \n3) Type \n 4) Periodicity \n");
 			int ch = p.in.nextInt();
 
 			if (ch == 1) {
@@ -66,7 +66,6 @@ public class Queries {
 			} 
 			else if (ch == 2) {
 				System.out.println("Enter the new typical_topics : ");
-				// p.in.nextLine();
 				String tt1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -81,7 +80,6 @@ public class Queries {
 			} 
 			else if (ch == 3) {
 				System.out.println("Enter the new type : ");
-				// p.in.nextLine();
 				String type1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -118,4 +116,67 @@ public class Queries {
 		}
 	}
 
+	public static void assignEditor(User p) {
+
+		PreparedStatement s3 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+		
+	public static void newBookEdition(User p) {
+
+		PreparedStatement s4 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void newIssuePublication(User p) {
+
+		PreparedStatement s5 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void deleteBookEdition(User p) {
+
+		PreparedStatement s6 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void deleteIssuePublication(User p) {
+
+		PreparedStatement s7 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	
 }

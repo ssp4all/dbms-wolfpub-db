@@ -56,8 +56,8 @@ public class User {
 				System.out.println("2: Update Publication Information");
 				System.out.println("3: Assign Editors to Publication");
 
-				System.out.println("6: Enter a new book edition of a Publication");
-				System.out.println("7: Enter a new issue of a Publication");
+				System.out.println("4: Enter a new book edition of a Publication");
+				System.out.println("5: Enter a new issue of a Publication");
 				System.out.println("6: Delete book edition of a Publication");
 				System.out.println("7: Delete issue of a Publication");
 
@@ -115,11 +115,33 @@ public class User {
 	void run_query() {
 		switch (this.operation) {
 			case 1:
-				Queries.enter_new_publication(this);
+				Queries.enterNewPublication(this);
 				break;
 			case 2:
-				Queries.update_publication_info(this);
+				Queries.updatePublication(this);
 				break;
+			case 3:
+				Queries.assignEditor(this);
+				break;
+			case 4:
+				Queries.newBookEdition(this);
+				break;
+			case 5:
+				Queries.deleteBookEdition(this);
+				break;
+			case 6:
+				Queries.newIssuePublication(this);
+				break;
+			case 7:
+				Queries.deleteBookEdition(this);
+				break;
+			case 8:
+				Queries.deleteIssuePublication(this);
+				break;
+			case 9:
+				Queries.newIssuePublication(this);
+				break;
+
 			default:
 				break;
 		}
