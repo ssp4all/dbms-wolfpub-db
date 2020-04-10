@@ -63,8 +63,7 @@ public class User {
 
 				System.out.println("8: Enter a new article");
 				System.out.println("9: Update article info");
-				System.out.println("10: Enter article text");
-				System.out.println("11: Update article text");
+				// System.out.println("11: Update article text");
 				System.out.println("12: Find books by topic, date, author's name");
 				System.out.println("13: Find articles by topic, date, author's name");
 				System.out.println("14: Enter payment info for Contributors");
@@ -127,19 +126,31 @@ public class User {
 				Queries.newBookEdition(this);
 				break;
 			case 5:
-				Queries.deleteBookEdition(this);
+				Queries.newIssuePublication(this);
 				break;
 			case 6:
-				Queries.newIssuePublication(this);
-				break;
-			case 7:
 				Queries.deleteBookEdition(this);
 				break;
-			case 8:
+			case 7:
 				Queries.deleteIssuePublication(this);
 				break;
+			case 8:
+				Queries.enterNewArticle(this);
+				break;
 			case 9:
-				Queries.newIssuePublication(this);
+				Queries.updateArticleInfo(this);
+				break;
+			// case 11:
+			// 	Queries.updateArticleText(this);
+			// 	break;
+			case 12:
+				Queries.findBook(this);
+				break;
+			case 13:
+				Queries.findArticle(this);
+				break;
+			case 14:
+				Queries.enterPayementInfo(this);
 				break;
 
 			default:

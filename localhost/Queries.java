@@ -22,7 +22,7 @@ public class Queries {
 			String periodicity = p.in.nextLine();
 
 			s1 = (PreparedStatement) p.conn.prepareStatement(
-					"INSERT INTO Publication (publication_id, title, typical_topics, type, periodicity) VALUES (?,?,?,?,?)");
+					"INSERT INTO Publication VALUES (?,?,?,?,?)");
 			s1.setString(1, publication_id);
 			s1.setString(2, title);
 			s1.setString(3, typical_topics);
@@ -124,9 +124,21 @@ public class Queries {
 
 		PreparedStatement s3 = null;
 		try {
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
-
+			p.in.nextLine();
+			System.out.println("\nEnter the publication_id:");
 			String pub_id = p.in.nextLine();
+			System.out.println("\nEnter the Editor's id: ");
+			String ed_id = p.in.nextLine();
+			s3 = (PreparedStatement) p.conn
+						.prepareStatement("INSERT INTO worksFor VALUES(?,?)");
+
+			s3.setString(1, ed_id);
+			s3.setString(2, pub_id);
+			if (s3.executeUpdate() == 1)
+				System.out.println("Info Updated!");
+			else
+				System.out.println("Couldn't update the Publication Info");
+
 		}
 		catch (Exception e) {
 			System.out.println("Error >>" + e);
@@ -137,31 +149,70 @@ public class Queries {
 
 		PreparedStatement s4 = null;
 		try {
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+			p.in.nextLine();
+			System.out.println("Enter following details: \n " + 
+					"1) ISBN \n " + 
+						"2) Publication ID \n " +
+							"3) Date of Creation (YYYY-MM-DD) \n " + 
+								"4) Date of Publication (YYYY-MM-DD)\n "+ 
+									"5) Edition No \n");
 
-			String pub_id = p.in.nextLine();
-		}
+			String isbn = p.in.nextLine();
+			String pubId = p.in.nextLine();
+			String doc = p.in.nextLine();
+			String dop = p.in.nextLine();
+			String ed = p.in.nextLine();
+
+			s4 = (PreparedStatement) p.conn.prepareStatement(
+					"INSERT INTO Book VALUES (?,?,?,?,?)");
+			s4.setString(1, isbn);
+			s4.setString(2, pubId);
+			s4.setString(3, doc);
+			s4.setString(4, dop);
+			s4.setString(5, ed);
+
+			if (s4.executeUpdate() == 1)
+				System.out.println("Info. added");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} 
 		catch (Exception e) {
-			System.out.println("Error >>" + e);
+			System.out.println("Error >>>" + e);
 		}
 	}
 	public static void newIssuePublication(User p) {
 
 		PreparedStatement s5 = null;
 		try {
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+			p.in.nextLine();
+			System.out.println("\nEnter: \n1)Issue-ID\n2)Date of Issue (YYYY-MM-DD)\n3)Publication-ID\n");
 
-			String pub_id = p.in.nextLine();
+			String issueId = p.in.nextLine();
+			String doi = p.in.nextLine();
+			String pubId = p.in.nextLine();
+			s5 = (PreparedStatement) p.conn.prepareStatement(
+					"INSERT INTO Issue VALUES (?,?,?)");
+			
+			s5.setString(1, issueId);
+			s5.setString(2, doi);
+			s5.setString(3, pubId);
+
+			if (s5.executeUpdate() == 1)
+				System.out.println("Info. added");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		
 		}
 		catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
 	}
-
+	//Pending
 	public static void deleteBookEdition(User p) {
 
 		PreparedStatement s6 = null;
 		try {
+			p.in.nextLine();
 			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
 
 			String pub_id = p.in.nextLine();
@@ -170,17 +221,154 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+	//pending
 	public static void deleteIssuePublication(User p) {
 
 		PreparedStatement s7 = null;
 		try {
+			p.in.nextLine();
 			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
 
 			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void enterNewArticle(User p) {
+
+		PreparedStatement s8 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("\nEnter: \n1)Article-ID\n2)Date of creation (YYYY-MM-DD)\n3)content\n");
+
+			String articleId = p.in.nextLine();
+			String doc = p.in.nextLine();
+			String content = p.in.nextLine();
+			s8 = (PreparedStatement) p.conn.prepareStatement(
+					"INSERT INTO Article VALUES (?,?,?)");
+			
+			s8.setString(1, articleId);
+			s8.setString(2, doc);
+			s8.setString(3, content);
+
+			if (s8.executeUpdate() == 1)
+				System.out.println("Info. added");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void updateArticleInfo(User p) {
+
+		PreparedStatement s9 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("Enter an Article-ID: ");
+			String articleId = p.in.nextLine();
+
+			System.out.println(
+					"What do you want to update? \n1) Date of creation (YYYY-MM-DD) \n2) Content\n");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			if (ch == 1) {
+				System.out.println("Enter a date of creation (YYYY-MM-DD): ");
+				String doc = p.in.nextLine();
+				
+				s9 = (PreparedStatement) p.conn.prepareStatement(
+					"UPDATE Article SET date_of_creation = ? WHERE article_id = ?");
+				
+				s9.setString(1, doc);
+				s9.setString(2, articleId);
+				if (s9.executeUpdate() == 1)
+					System.out.println("Info. added");
+				else
+					System.out.println("Sorry, the info. couldn't be added");
+		
+			}	
+			else if (ch == 2){
+				System.out.println("Enter the content: ");
+				String content = p.in.nextLine();
+				s9 = (PreparedStatement) p.conn.prepareStatement(
+					"UPDATE Article SET content = ? WHERE article_id = ?");
+				s9.setString(1, content);
+				s9.setString(2, articleId);
+				if (s9.executeUpdate() == 1)
+					System.out.println("Info. added");
+				else
+					System.out.println("Sorry, the info. couldn't be added");
+			}
+			else{
+				System.out.println("Invalid Input!");
+			}
 		}
 		catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
 	}
 	
+	public static void findBook(User p) {
+
+		PreparedStatement s11 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void findArticle(User p) {
+
+		PreparedStatement s13 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+	public static void enterPayementInfo(User p) {
+
+		PreparedStatement s14 = null;
+		try {
+			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+			String pub_id = p.in.nextLine();
+		}
+		catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	// public static void findBook(User p) {
+
+	// 	PreparedStatement s13 = null;
+	// 	try {
+	// 		System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+	// 		String pub_id = p.in.nextLine();
+	// 	}
+	// 	catch (Exception e) {
+	// 		System.out.println("Error >>" + e);
+	// 	}
+	// }
+	// public static void enterPayementInfo(User p) {
+
+	// 	PreparedStatement s14 = null;
+	// 	try {
+	// 		System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+
+	// 		String pub_id = p.in.nextLine();
+	// 	}
+	// 	catch (Exception e) {
+	// 		System.out.println("Error >>" + e);
+	// 	}
+	// }
 }
