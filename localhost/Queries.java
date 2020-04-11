@@ -333,9 +333,83 @@ public class Queries {
 
 		PreparedStatement s13 = null;
 		try {
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
+			p.in.nextLine();
+			System.out.println(
+					"What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date of publication (YYYY-MM-DD) \n3) Topic\n4) Text of article\n");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			if (ch == 1) {
+				System.out.println("Enter a date of creation (YYYY-MM-DD): ");
+				String doc = p.in.nextLine();
 
-			String pub_id = p.in.nextLine();
+				s13 = (PreparedStatement) p.conn.prepareStatement(
+						"SELECT `article_id`, `date_of_creation`, `content` FROM `Article` where `date_of_creation` = '?'");
+				s13.setString(1, doc);
+				ResultSet rs = s13.executeQuery();
+				System.out.println("###################################");
+				System.out.println("article_id\tdate_of_creation\tcontent");
+				System.out.println("###################################");
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
+							rs.getString("content"));
+					System.out.println();
+				}
+			} else if (ch == 2) {
+				System.out.println("Enter a date of publication (YYYY-MM-DD): ");
+				String doc = p.in.nextLine();
+
+				s13 = (PreparedStatement) p.conn.prepareStatement(
+						"SELECT A.article_id, A.date_of_creation, A.content from Article as A JOIN (select article_id from Issue JOIN consistOf where Issue.issue_id = consistOf.issue_id and date_of_issue = '?') as B where A.article_id = B.article_id");
+				s13.setString(1, doc);
+				ResultSet rs = s13.executeQuery();
+				System.out.println("###################################");
+				System.out.println("article_id\tdate_of_creation\tcontent");
+				System.out.println("###################################");
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
+							rs.getString("content"));
+					System.out.println();
+				}
+			} else if (ch == 3) {
+				System.out.println("Enter topic: ");
+				String doc = p.in.nextLine();
+
+				s13 = (PreparedStatement) p.conn.prepareStatement(
+						"SELECT X.article_id, X.date_of_creation, X.content, C.title from Article X JOIN consistOf A on X.article_id = A.article_id JOIN Issue B on A.issue_id = B.issue_id JOIN Publication C on B.publication_id = C.publication_id where title LIKE '%?%'");
+				s13.setString(1, doc);
+				ResultSet rs = s13.executeQuery();
+				System.out.println("###################################");
+				System.out.println("article_id\tdate_of_creation\tcontent\ttitle");
+				System.out.println("###################################");
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
+							rs.getString("content"), rs.getString("title"));
+					System.out.println();
+				}
+			} else if (ch == 4) {
+				System.out.println("Enter text of the article: ");
+				String doc = p.in.nextLine();
+
+				s13 = (PreparedStatement) p.conn.prepareStatement(
+						"SELECT `article_id`, `date_of_creation`, `content` FROM `Article` where `content` LIKE '%?%'");
+				s13.setString(1, doc);
+				ResultSet rs = s13.executeQuery();
+				System.out.println("###################################");
+				System.out.println("article_id\tdate_of_creation\tcontent");
+				System.out.println("###################################");
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
+							rs.getString("content"));
+					System.out.println();
+				}
+			} else {
+				System.out.println("Invalid Input!");
+			}
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
