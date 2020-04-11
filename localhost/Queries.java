@@ -671,7 +671,7 @@ public class Queries {
 		try {
 			System.out.println("\nEnter the distributor id and new balance amount to be set :");
 			String distributorId = p.in.nextLine();
-			String amount = p.in.nextLine();
+			String balance = p.in.nextLine();
 			s21 = (PreparedStatement) p.conn
 					.prepareStatement("UPDATE Distributor SET balance = ? WHERE distributor_id = ?");
 			s21.setString(1, balance);
@@ -729,7 +729,9 @@ public class Queries {
 	}
 
 	public static void totalExpenses(User p) {
-		PreparedStatement s24 = null;
+		PreparedStatement s24_1 = null;
+		PreparedStatement s24_2 = null;
+
 		try {
 			System.out.println("\nTotal shipping cost");
 			s24_1 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost) FROM `Order`");
