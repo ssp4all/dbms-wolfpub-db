@@ -337,82 +337,66 @@ public class Queries {
 		}
 	}
 
-	public static void findArticle(User p) {
+	public static void findBookArticle(User p) {
 
 		PreparedStatement s13 = null;
 		try {
 			p.in.nextLine();
 			System.out.println(
-					"What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date of publication (YYYY-MM-DD) \n3) Topic\n4) Text of article\n");
+					"What do you want to search by? \n1) Date of creation / publication (YYYY-MM-DD)\n2) Topic\n3) Author's name\n");
 			System.out.println("Enter you choice: ");
 			int ch = p.in.nextInt();
 			p.in.nextLine();
 			if (ch == 1) {
-				System.out.println("Enter a date of creation (YYYY-MM-DD): ");
-				String doc = p.in.nextLine();
+				System.out.println("Enter a date of creation / publication (YYYY-MM-DD): ");
+				String date = p.in.nextLine();
 
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT `article_id`, `date_of_creation`, `content` FROM `Article` where `date_of_creation` = '?'");
-				s13.setString(1, doc);
+						"SELECT B.isbn AS 'Book/Article', publication_date AS Date FROM Book B WHERE publication_date = ? UNION SELECT A.article_id AS ‘Book/Article’, date_of_creation AS Date FROM Article A WHERE date_of_creation = ?");
+				s13.setString(1, date);
+				s13.setString(2, date);
 				ResultSet rs = s13.executeQuery();
 				System.out.println("###################################");
-				System.out.println("article_id\tdate_of_creation\tcontent");
+				System.out.println("Book / Article\tDate");
 				System.out.println("###################################");
 
 				while (rs.next()) {
-					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
-							rs.getString("content"));
+					System.out.printf("%s\t%s", rs.getString("Book/Article"), rs.getString("Date"));
 					System.out.println();
 				}
 			} else if (ch == 2) {
-				System.out.println("Enter a date of publication (YYYY-MM-DD): ");
-				String doc = p.in.nextLine();
+				System.out.println("Enter a topic to search by : ");
+				String topic = p.in.nextLine();
 
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT A.article_id, A.date_of_creation, A.content from Article as A JOIN (select article_id from Issue JOIN consistOf where Issue.issue_id = consistOf.issue_id and date_of_issue = '?') as B where A.article_id = B.article_id");
-				s13.setString(1, doc);
+						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE typical_topics = ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics = ?");
+				s13.setString(1, topic);
+				s13.setString(2, topic);
+
 				ResultSet rs = s13.executeQuery();
 				System.out.println("###################################");
-				System.out.println("article_id\tdate_of_creation\tcontent");
+				System.out.println("Book / Article\tTopic");
 				System.out.println("###################################");
 
 				while (rs.next()) {
-					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
-							rs.getString("content"));
+					System.out.printf("%s\t%s", rs.getString("Book/Article"), rs.getString("Topic"));
 					System.out.println();
 				}
 			} else if (ch == 3) {
-				System.out.println("Enter topic: ");
-				String doc = p.in.nextLine();
+				System.out.println("Enter Author name : ");
+				String name = p.in.nextLine();
 
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT X.article_id, X.date_of_creation, X.content, C.title from Article X JOIN consistOf A on X.article_id = A.article_id JOIN Issue B on A.issue_id = B.issue_id JOIN Publication C on B.publication_id = C.publication_id where title LIKE '%?%'");
-				s13.setString(1, doc);
+						"SELECT B.isbn AS 'Book/Article', name FROM Book B JOIN bookAuthor BA ON B.isbn = BA.isbn JOIN Contributor C ON C.contributor_id = BA.author_id WHERE name = ? UNION SELECT D.article_id AS 'Book/Article', name FROM Article D JOIN articleAuthor E ON D.article_id = E.author_id JOIN Contributor F ON F.contributor_id = E.author_id WHERE name = ?");
+				s13.setString(1, name);
+				s13.setString(2, name);
 				ResultSet rs = s13.executeQuery();
 				System.out.println("###################################");
-				System.out.println("article_id\tdate_of_creation\tcontent\ttitle");
+				System.out.println("Book / Article\tTopic");
 				System.out.println("###################################");
 
 				while (rs.next()) {
-					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
-							rs.getString("content"), rs.getString("title"));
-					System.out.println();
-				}
-			} else if (ch == 4) {
-				System.out.println("Enter text of the article: ");
-				String doc = p.in.nextLine();
-
-				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT `article_id`, `date_of_creation`, `content` FROM `Article` where `content` LIKE '%?%'");
-				s13.setString(1, doc);
-				ResultSet rs = s13.executeQuery();
-				System.out.println("###################################");
-				System.out.println("article_id\tdate_of_creation\tcontent");
-				System.out.println("###################################");
-
-				while (rs.next()) {
-					System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
-							rs.getString("content"));
+					System.out.printf("%s\t%s", rs.getString("Book/Article"), rs.getString("name"));
 					System.out.println();
 				}
 			} else {
@@ -427,6 +411,22 @@ public class Queries {
 
 		PreparedStatement s14 = null;
 		try {
+			System.out.println("\nEnter the contributor id to track payment : ");
+			String contributor_id = p.in.nextLine();
+
+			s14 = (PreparedStatement) p.conn.prepareStatement("SELECT * FROM Pays WHERE contributor_id = ?");
+			s14.setString(1, contributor_id);
+
+			ResultSet rs = s14.executeQuery();
+			System.out.println("###################################");
+			System.out.println("Payment id\tContributor id\tAmount\tDate");
+			System.out.println("###################################");
+
+			while (rs.next()) {
+				System.out.printf("%s\t%s\t%s\t%s", rs.getString("payment_id"), rs.getString("contributor_id"),
+						rs.getString("amount"), rs.getString("payment_date"));
+				System.out.println();
+			}
 
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
@@ -791,8 +791,9 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
-	//pending
-	public static void totalRevenue(User p) {
+
+	// pending
+	public static void totalRevenuePerCityDistributor(User p) {
 		PreparedStatement s26 = null;
 		try {
 			System.out.println("\nTotal Number of distributors");
@@ -813,6 +814,7 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+
 	public static void viewPaymentPerWorkType(User p) {
 		PreparedStatement s27 = null;
 		try {
