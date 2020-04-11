@@ -35,7 +35,7 @@ mysql -p mysql
 MariaDB [mysql]> select user, authentication_string, host from User;
 
 ### setting classpath on MAC
-export CLASSPATH=${CLASSPATH}:mariadb-java-client-2.6.0.jar:.
+```export CLASSPATH=:mariadb-java-client-2.6.0.jar:.```
 
 nano ~/.bash_profile
 

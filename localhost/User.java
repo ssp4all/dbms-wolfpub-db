@@ -147,7 +147,59 @@ public class User {
 		case 14:
 			Queries.enterPayementInfo(this);
 			break;
-
+		
+		case 16:
+			Queries.enterNewDistributor(this);
+			break;
+		case 17:
+			Queries.updateDistributor(this);
+			break;
+		case 18:
+			Queries.deleteDistributor(this);
+			break;
+		case 19:
+			Queries.addNewOrder(this);
+			break;
+		case 20:
+			Queries.billDistributor(this);
+			break;
+		case 21:
+			Queries.changeOutstandingBalance(this);
+			break;
+		case 22:
+			Queries.getMonthlyReport(this);
+			break;
+		case 23:
+			Queries.totalRevenue(this);
+			break;
+		case 24:
+			Queries.totalExpenses(this);
+			break;
+		case 25:
+			Queries.totalNumberOfDistributors(this);
+			break;
+		case 26:
+			Queries.totalRevenue(this);
+			break;
+		case 27:
+			Queries.viewPaymentPerWorkType(this);
+			break;
+			
+		case 28:
+			Queries.viewPubInfoReponsible(this);
+			break;
+		case 29:
+			Queries.addArticles(this);
+			break;
+		case 30:
+			Queries.deleteArticle(this);
+			break;
+		case 31:
+			Queries.addChapter(this);
+			break;
+		case 32:
+			Queries.deleteChapter(this);
+			break;
 		default:
 			break;
 		}

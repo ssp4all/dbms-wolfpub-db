@@ -791,7 +791,28 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+	//pending
+	public static void totalRevenue(User p) {
+		PreparedStatement s26 = null;
+		try {
+			System.out.println("\nTotal Number of distributors");
 
+			s26 = (PreparedStatement) p.conn.prepareStatement("SELECT (*) AS Number_of_distributors FROM Distributor");
+
+			ResultSet rs = s26.executeQuery();
+			System.out.println("###################################");
+			System.out.println("Number_of_distributors");
+			System.out.println("###################################");
+
+			while (rs.next()) {
+				System.out.printf("%s", rs.getString("Number_of_distributors"));
+				System.out.println();
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
 	public static void viewPaymentPerWorkType(User p) {
 		PreparedStatement s27 = null;
 		try {
