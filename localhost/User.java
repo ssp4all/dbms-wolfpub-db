@@ -77,7 +77,6 @@ public class User {
 			System.out.println("23: Total revenue of publishing house");
 			System.out.println("24: Total expenses of publishing house");
 			System.out.println("25: Get total current number of distributors");
-			System.out.println("25: Get total current number of distributors");
 			System.out.println(
 					"26: Calculate total revenue (since inception) per city, per distributor, and per location");
 			System.out.println(
