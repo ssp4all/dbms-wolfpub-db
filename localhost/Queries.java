@@ -196,9 +196,13 @@ public class Queries {
 		PreparedStatement s6 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
-
-			String pub_id = p.in.nextLine();
+			System.out.println("\nEnter the isbn of the book edition");
+			String isbn = p.in.nextLine();
+			s6 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM `Book` WHERE `isbn` = ?");
+			s6.setString(1, isbn);
+			if (s6.executeUpdate() == 1) {
+				System.out.println("This edition of the book is deleted");
+			}
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
@@ -210,9 +214,13 @@ public class Queries {
 		PreparedStatement s7 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
-
-			String pub_id = p.in.nextLine();
+			System.out.println("\nEnter the id of the issue you want to delete: ");
+			String issue_id = p.in.nextLine();
+			s7 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM `Issue` WHERE `issue_id` = ?");
+			s7.setString(1, issue_id);
+			if (s7.executeUpdate() == 1) {
+				System.out.println("This issue is deleted");
+			}
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
@@ -419,8 +427,7 @@ public class Queries {
 
 		PreparedStatement s14 = null;
 		try {
-			System.out.println("\nEnter the publication_id of the record to which editor has to be assigned: ");
-			String pub_id = p.in.nextLine();
+
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
