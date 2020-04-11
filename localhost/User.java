@@ -45,68 +45,68 @@ public class User {
 
 	void list_of_operations() {
 		switch (this.role) {
-			case 1:
-				System.out.println("Hello Manager\n");
-				// Enter all the operations managers could perform
-				System.out.println("1: Enter new Publication Information");
-				System.out.println("2: Update Publication Information");
-				System.out.println("3: Assign Editors to Publication");
+		case 1:
+			System.out.println("Hello Manager\n");
+			// Enter all the operations managers could perform
+			System.out.println("1: Enter new Publication Information");
+			System.out.println("2: Update Publication Information");
+			System.out.println("3: Assign Editors to Publication");
 
-				System.out.println("4: Enter a new book edition of a Publication");
-				System.out.println("5: Enter a new issue of a Publication");
-				System.out.println("6: Delete book edition of a Publication");
-				System.out.println("7: Delete issue of a Publication");
+			System.out.println("4: Enter a new book edition of a Publication");
+			System.out.println("5: Enter a new issue of a Publication");
+			System.out.println("6: Delete book edition of a Publication");
+			System.out.println("7: Delete issue of a Publication");
 
-				System.out.println("8: Enter a new article");
-				System.out.println("9: Update article info");
-				// System.out.println("11: Update article text");
-				System.out.println("12: Find books by topic, date, author's name");
-				System.out.println("13: Find articles by topic, date, author's name");
-				System.out.println("14: Enter payment info for Contributors");
-				System.out.println("15: Track payment info");
+			System.out.println("8: Enter a new article");
+			System.out.println("9: Update article info");
+			// System.out.println("11: Update article text");
 
-				System.out.println("16: Enter new Distributor");
-				System.out.println("17: Update Distributor Information");
-				System.out.println("18: Delete a Distributor");
-				System.out.println("19: Enter new order Information for a distributor");
-				System.out.println("20: Bill Distributor for an order");
-				System.out.println("21: Change outstanding balance on receipt of payment");
+			System.out.println("13: Find book , articles by topic, date, author's name");
+			System.out.println("14: Enter payment info for Contributors");
+			System.out.println("15: Track payment info");
 
-				System.out.println(
-						"22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
-				System.out.println("23: Total revenue of publishing house");
-				System.out.println("24: Total expenses of publishing house");
-				System.out.println("25: Get total current number of distributors");
-				System.out.println(
-						"26: Calculate total revenue (since inception) per city, per distributor, and per location");
-				System.out.println(
-						"27: Calculate total payments to the editors and authors, per time period and per work type");
-				break;
+			System.out.println("16: Enter new Distributor");
+			System.out.println("17: Update Distributor Information");
+			System.out.println("18: Delete a Distributor");
+			System.out.println("19: Enter new order Information for a distributor");
+			System.out.println("20: Bill Distributor for an order");
+			System.out.println("21: Change outstanding balance on receipt of payment");
 
-			case 2:
-				System.out.println("Hello Contributors!");
-				// Enter all the operations Contributors could perform
-				System.out.println("28: View Publication info Contributor is reponsible for");
-				System.out.println("29: Add Articles to periodic Publication");
-				System.out.println("30: Delete articles from periodic Publication");
-				System.out.println("31: Add Chapters to Book");
-				System.out.println("32: Delete chapters from Book");
-				break;
+			System.out.println(
+					"22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
+			System.out.println("23: Total revenue of publishing house");
+			System.out.println("24: Total expenses of publishing house");
+			System.out.println("25: Get total current number of distributors");
+			System.out.println(
+					"26: Calculate total revenue (since inception) per city, per distributor, and per location");
+			System.out.println(
+					"27: Calculate total payments to the editors and authors, per time period and per work type");
+			break;
 
-			case 99:
-				System.out.println("\nThank You!\nExiting...");
-				System.exit(0);
-				break;
+		case 2:
+			System.out.println("Hello Contributors!");
+			// Enter all the operations Contributors could perform
+			System.out.println("28: View Publication info Contributor is reponsible for");
+			System.out.println("29: Add Articles to periodic Publication");
+			System.out.println("30: Delete articles from periodic Publication");
+			System.out.println("31: Add Chapters to Book");
+			System.out.println("32: Delete chapters from Book");
+			break;
 
-			default:
-				System.out.println("Invalid Input!");
-				break;
+		case 99:
+			System.out.println("\nThank You!\nExiting...");
+			System.exit(0);
+			break;
+
+		default:
+			System.out.println("Invalid Input!");
+			break;
 		}
 		this.operation = this.in.nextInt();
 		this.run_query();
 	}
 
-	void run_query() {
+void run_query() {
 		switch (this.operation) {
 			case 1:
 				Queries.enterNewPublication(this);
@@ -142,7 +142,7 @@ public class User {
 				Queries.findBook(this);
 				break;
 			case 13:
-				Queries.findArticle(this);
+				Queries.findBookArticle(this);
 				break;
 			case 14:
 				Queries.enterPayementInfo(this);
@@ -202,7 +202,3 @@ public class User {
 				break;
 			default:
 				break;
-		}
-	}
-
-}
