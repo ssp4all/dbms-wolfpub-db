@@ -33,3 +33,13 @@ MariaDB [pac]> GRANT ALL PRIVILEGES ON *.* TO 'test'@'localhost' IDENTIFIED BY '
 ### to see existing users
 mysql -p mysql
 MariaDB [mysql]> select user, authentication_string, host from User;
+
+### setting classpath on MAC
+export CLASSPATH=${CLASSPATH}:mariadb-java-client-2.6.0.jar:.
+
+nano ~/.bash_profile
+
+
+rm *.class
+javac Wolfcity.java 
+java Wolfcity
