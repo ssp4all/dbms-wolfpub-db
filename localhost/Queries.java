@@ -796,16 +796,16 @@ public class Queries {
 		PreparedStatement s26 = null;
 		try {
 			p.in.nextLine();
-			System.out.println(
-					"Do you want the total revenue? \n1) per distributor \n2) per city \n3) per location \n");
+			System.out
+					.println("Do you want the total revenue? \n1) per distributor \n2) per city \n3) per location \n");
 			System.out.println("Enter you choice: ");
 			int ch = p.in.nextInt();
 			p.in.nextLine();
 			if (ch == 1) {
-				//payment status must be paid
-				s26 = (PreparedStatement) p.conn
-						.prepareStatement("select Distributor.distributor_id, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by distributor_id");
-						
+				// payment status must be paid
+				s26 = (PreparedStatement) p.conn.prepareStatement(
+						"select Distributor.distributor_id, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by distributor_id");
+
 				ResultSet rs = s26.executeQuery();
 				System.out.println("###################################");
 				System.out.println("Distributor ID\tRevenue");
@@ -828,7 +828,8 @@ public class Queries {
 				while (rs.next()) {
 					System.out.printf("%s\t%s", rs.getString("city"), rs.getString("revenue"));
 					System.out.println();
-				} else if (ch == 3) {
+				}
+			} else if (ch == 3) {
 				// payment status must be paid
 				s26 = (PreparedStatement) p.conn.prepareStatement(
 						"select address, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by address");
