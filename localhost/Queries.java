@@ -791,28 +791,66 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
-	//pending
-	public static void totalRevenue(User p) {
+
+	public static void totalRevenueOrder(User p) {
 		PreparedStatement s26 = null;
 		try {
-			System.out.println("\nTotal Number of distributors");
+			p.in.nextLine();
+			System.out.println(
+					"Do you want the total revenue? \n1) per distributor \n2) per city \n3) per location \n");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			if (ch == 1) {
+				//payment status must be paid
+				s26 = (PreparedStatement) p.conn
+						.prepareStatement("select Distributor.distributor_id, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by distributor_id");
+						
+				ResultSet rs = s26.executeQuery();
+				System.out.println("###################################");
+				System.out.println("Distributor ID\tRevenue");
+				System.out.println("###################################");
 
-			s26 = (PreparedStatement) p.conn.prepareStatement("SELECT (*) AS Number_of_distributors FROM Distributor");
+				while (rs.next()) {
+					System.out.printf("%s\t%s", rs.getString("distributor_id"), rs.getString("revenue"));
+					System.out.println();
+				}
+			} else if (ch == 2) {
+				// payment status must be paid
+				s26 = (PreparedStatement) p.conn.prepareStatement(
+						"select city, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by city");
 
-			ResultSet rs = s26.executeQuery();
-			System.out.println("###################################");
-			System.out.println("Number_of_distributors");
-			System.out.println("###################################");
+				ResultSet rs = s26.executeQuery();
+				System.out.println("###################################");
+				System.out.println("City\tRevenue");
+				System.out.println("###################################");
 
-			while (rs.next()) {
-				System.out.printf("%s", rs.getString("Number_of_distributors"));
-				System.out.println();
+				while (rs.next()) {
+					System.out.printf("%s\t%s", rs.getString("city"), rs.getString("revenue"));
+					System.out.println();
+				} else if (ch == 3) {
+				// payment status must be paid
+				s26 = (PreparedStatement) p.conn.prepareStatement(
+						"select address, sum(price * no_of_copies + shipping_cost) as revenue from `Order` join Distributor on Order.distributor_id = Distributor.distributor_id where payment_status = 'paid' group by address");
+
+				ResultSet rs = s26.executeQuery();
+				System.out.println("###################################");
+				System.out.println("Location\tRevenue");
+				System.out.println("###################################");
+
+				while (rs.next()) {
+					System.out.printf("%s\t%s", rs.getString("address"), rs.getString("revenue"));
+					System.out.println();
+				}
+			} else {
+				System.out.println("Invalid Input!");
 			}
 
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
 	}
+
 	public static void viewPaymentPerWorkType(User p) {
 		PreparedStatement s27 = null;
 		try {
