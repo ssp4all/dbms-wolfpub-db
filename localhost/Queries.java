@@ -379,6 +379,239 @@ public class Queries {
 	// }
 	// }
 
+	public static void enterNewDistributor(User p) {
+		PreparedStatement s16 = null;
+		try {
+			System.out.println("\nEnter the new distributor details :");
+			String distributorId = p.in.nextLine();
+			String name = p.in.nextLine();
+			String distType = p.in.nextLine();
+			String address = p.in.nextLine();
+			String city = p.in.nextLine();
+			String contactPerson = p.in.nextLine();
+			String balance = p.in.nextLine();
+			String phoneNo = p.in.nextLine();
+
+			s16 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO Distributor VALUES(?,?,?,?,?,?,?,?)");
+			s16.setString(1, distributorId);
+			s16.setString(2, name);
+			s16.setString(3, distType);
+			s16.setString(4, address);
+			s16.setString(5, city);
+			s16.setString(6, contactPerson);
+			s16.setString(7, balance);
+			s16.setString(8, phoneNo);
+
+			if (s16.executeUpdate() == 1)
+				System.out.println("New Distributor Added");
+			else
+				System.out.println("Sorry, the distributor couldn't be added");
+
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void updateDistributor(User p) {
+
+		PreparedStatement s17 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("\nEnter the distributor_id of the record to be updated: ");
+			String distributorId = p.in.nextLine();
+
+			System.out.println(
+					"What do you want to update? \n1) name \n2) dist_type \n3) address \n4) city \n5) contact_person \n6) balance \n7) phone_number \n");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			// p.in.nextLine();
+			if (ch == 1) {
+				// p.in.nextLine();
+				System.out.println("Enter a new name: ");
+				String name = p.in.nextLine();
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET name = ? WHERE distributor_id = ?");
+
+				s17.setString(1, name);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else if (ch == 2) {
+				System.out.println("Enter the new dist_type : ");
+				p.in.nextLine();
+				String type = p.in.nextLine();
+
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET dist_type = ? WHERE distributor_id = ?");
+
+				s17.setString(1, type);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else if (ch == 3) {
+				System.out.println("Enter the new address : ");
+				String address = p.in.nextLine();
+
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET address = ? WHERE distributor_id = ?");
+
+				s17.setString(1, address);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else if (ch == 4) {
+				System.out.println("Enter the new city : ");
+				p.in.nextLine();
+				String city = p.in.nextLine();
+
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET city = ? WHERE distributor_id = ?");
+
+				s17.setString(1, city);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else if (ch == 5) {
+				System.out.println("Enter the new contact person : ");
+				p.in.nextLine();
+				String contactPerson = p.in.nextLine();
+
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET contact_person = ? WHERE distributor_id = ?");
+
+				s17.setString(1, contactPerson);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else if (ch == 6) {
+				System.out.println("Enter the new balance : ");
+				p.in.nextLine();
+				String balance = p.in.nextLine();
+
+				s17 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Distributor SET balance = ? WHERE distributor_id = ?");
+
+				s17.setString(1, balance);
+				s17.setString(2, distributorId);
+				if (s17.executeUpdate() == 1)
+					System.out.println("Distributor Info Updated!");
+				else
+					System.out.println("Couldn't update the Distributor Info");
+			} else {
+				System.out.println("Invalid Input!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void deleteDistributor(User p) {
+		PreparedStatement s18 = null;
+		try {
+			System.out.println("\nEnter the distributor id of the distributor you want to delete : ");
+			String distributorId = p.in.nextLine();
+
+			s18 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM Distributor WHERE distributor_id = ?");
+			s18.setString(1, distributorId);
+
+			if (s18.executeUpdate() == 1)
+				System.out.println("Info. Deleted");
+			else
+				System.out.println("Sorry, the info. couldn't be added");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void addNewOrder(User p) {
+		PreparedStatement s19 = null;
+		try {
+			System.out.println("\nEnter the new order details with book / issue of a publication for a distributor :");
+			String orderId = p.in.nextLine();
+			String shippingCost = p.in.nextLine();
+			String price = p.in.nextLine();
+			String orderDate = p.in.nextLine();
+			String noOfCopies = p.in.nextLine();
+			String bookId = p.in.nextLine();
+			String issueId = p.in.nextLine();
+			String paymentStatus = p.in.nextLine();
+			String distributorId = p.in.nextLine();
+
+			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?)");
+			s19.setString(1, orderId);
+			s19.setString(2, shippingCost);
+			s19.setString(3, price);
+			s19.setString(4, orderDate);
+			s19.setString(5, noOfCopies);
+			s19.setString(6, bookId);
+			s19.setString(7, issueId);
+			s19.setString(8, paymentStatus);
+			s19.setString(9, distributorId);
+
+			if (s19.executeUpdate() == 1)
+				System.out.println("New Order Added");
+			else
+				System.out.println("Sorry, the order couldn't be added");
+
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void billDistributor(User p) {
+		PreparedStatement s20 = null;
+		try {
+			System.out.println("\nEnter the order id to bill distributor for :");
+			String orderId = p.in.nextLine();
+			s20 = (PreparedStatement) p.conn.prepareStatement(
+					"SELECT SUM(price * no_of_copies) AS Bill_Amount FROM `Order` WHERE order_id = ?");
+			s20.setString(1, orderId);
+
+			ResultSet rs = s20.executeQuery();
+			System.out.println("###################################");
+			System.out.println("Bill Amount");
+			System.out.println("###################################");
+
+			while (rs.next()) {
+				System.out.printf("%s", rs.getString("Bill_Amount"));
+				System.out.println();
+			}
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void changeOutstandingBalance(User p) {
+		PreparedStatement s21 = null;
+		try {
+			System.out.println("\nEnter the distributor id and new balance amount to be set :");
+			String distributorId = p.in.nextLine();
+			String amount = p.in.nextLine();
+			s21 = (PreparedStatement) p.conn
+					.prepareStatement("UPDATE Distributor SET balance = ? WHERE distributor_id = ?");
+			s21.setString(1, balance);
+			s21.setString(2, distributorId);
+
+			if (s21.executeUpdate() == 1)
+				System.out.println("Balance Updated");
+			else
+				System.out.println("Sorry, the balance couldn't be updated");
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
 	public static void getMonthlyReport(User p) {
 		PreparedStatement s22 = null;
 		try {
@@ -509,10 +742,17 @@ public class Queries {
 					"SELECT * FROM Publication WHERE publication_id IN (SELECT publication_id FROM worksFor WHERE contributor_id = ?");
 			s28.setString(1, contributorId);
 
-			if (s28.executeUpdate() == 1)
-				System.out.println("Info. Retrieved");
-			else
-				System.out.println("Sorry, the info. couldn't be added");
+			ResultSet rs = s28.executeQuery();
+			System.out.println("###################################");
+			System.out.println("publication_id\ttitle\ttypical_topics\ttype\tperiodicity");
+			System.out.println("###################################");
+
+			while (rs.next()) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s", rs.getString("publication_id"), rs.getString("title"),
+						rs.getString("typical_topics"), rs.getString("type"), rs.getString("periodicity"));
+				System.out.println();
+			}
+
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
@@ -562,11 +802,17 @@ public class Queries {
 		try {
 			System.out.println("\nEnter the Chapter id and Book ISBN in which chapter is to inserted : ");
 			String chapterId = p.in.nextLine();
+			String chapterNo = p.in.nextLine();
+			String chapterName = p.in.nextLine();
+			String content = p.in.nextLine();
 			String BookISBN = p.in.nextLine();
-			s31 = (PreparedStatement) p.conn.prepareStatement(
-					"INSERT INTO Chapter VALUES (9, 9, 'Black Widow', 'The best movie of 2020', 987654321);");
+
+			s31 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO Chapter VALUES (?, ?, ?, ?, ?);");
 			s31.setString(1, chapterId);
-			s31.setString(2, BookISBN);
+			s31.setString(2, chapterNo);
+			s31.setString(3, chapterName);
+			s31.setString(4, content);
+			s31.setString(5, BookISBN);
 
 			if (s31.executeUpdate() == 1)
 				System.out.println("Info. added");
