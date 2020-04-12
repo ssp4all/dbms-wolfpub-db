@@ -295,47 +295,49 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+	/*
+		Not needed as ANkit has convered this in findBookArticle function
+	*/
+	// public static void findBook(User p) {
 
-	public static void findBook(User p) {
+	// 	PreparedStatement s12 = null;
+	// 	try {
+	// 		p.in.nextLine();
+	// 		System.out.println(
+	// 				"What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date of publication (YYYY-MM-DD) \n3) Topic\n4) Title\n");
+	// 		System.out.println("Enter you choice: ");
+	// 		int ch = p.in.nextInt();
+	// 		p.in.nextLine();
+	// 		if (ch == 1) {
+	// 			System.out.println("Enter a date of creation (YYYY-MM-DD): ");
+	// 			// String doc = p.in.nextLine();
 
-		PreparedStatement s12 = null;
-		try {
-			p.in.nextLine();
-			System.out.println(
-					"What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date of publication (YYYY-MM-DD) \n3) Topic\n4) Title\n");
-			System.out.println("Enter you choice: ");
-			int ch = p.in.nextInt();
-			p.in.nextLine();
-			if (ch == 1) {
-				System.out.println("Enter a date of creation (YYYY-MM-DD): ");
-				// String doc = p.in.nextLine();
+	// 			s12 = (PreparedStatement) p.conn.prepareStatement(
+	// 					"SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN Publication P ON P.publication_id = B.publication_id  WHERE P.type = 'book' AND date_of_creation = '2018-10-10';");
+	// 			// s12.setString(1, doc);
+	// 			ResultSet rs = s12.executeQuery();
+	// 			System.out.println("###################################");
+	// 			System.out.println("Title\tPublication Id\tTypical Topics");
+	// 			System.out.println("###################################");
 
-				s12 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN Publication P ON P.publication_id = B.publication_id  WHERE P.type = 'book' AND date_of_creation = '2018-10-10';");
-				// s12.setString(1, doc);
-				ResultSet rs = s12.executeQuery();
-				System.out.println("###################################");
-				System.out.println("Title\tPublication Id\tTypical Topics");
-				System.out.println("###################################");
+	// 			while (rs.next()) {
+	// 				System.out.printf("%s\t%s\t%s", rs.getString("P.title"), rs.getString("P.publication_id"),
+	// 						rs.getString("P.typical_topics"));
+	// 				System.out.println();
+	// 			}
+	// 		} else if (ch == 2) {
 
-				while (rs.next()) {
-					System.out.printf("%s\t%s\t%s", rs.getString("P.title"), rs.getString("P.publication_id"),
-							rs.getString("P.typical_topics"));
-					System.out.println();
-				}
-			} else if (ch == 2) {
+	// 		} else if (ch == 3) {
 
-			} else if (ch == 3) {
+	// 		} else if (ch == 4) {
 
-			} else if (ch == 4) {
-
-			} else {
-				System.out.println("Invalid Input!");
-			}
-		} catch (Exception e) {
-			System.out.println("Error >>" + e);
-		}
-	}
+	// 		} else {
+	// 			System.out.println("Invalid Input!");
+	// 		}
+	// 	} catch (Exception e) {
+	// 		System.out.println("Error >>" + e);
+	// 	}
+	// }
 
 	public static void findBookArticle(User p) {
 
@@ -352,7 +354,7 @@ public class Queries {
 				String date = p.in.nextLine();
 
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT B.isbn AS 'Book/Article', publication_date AS Date FROM Book B WHERE publication_date = ? UNION SELECT A.article_id AS ‘Book/Article’, date_of_creation AS Date FROM Article A WHERE date_of_creation = ?");
+						"SELECT B.isbn AS 'Book/Article', publication_date AS Date FROM Book B WHERE publication_date = ? UNION SELECT A.article_id AS 'Book/Article', date_of_creation AS Date FROM Article A WHERE date_of_creation = ?");
 				s13.setString(1, date);
 				s13.setString(2, date);
 				ResultSet rs = s13.executeQuery();
@@ -369,9 +371,9 @@ public class Queries {
 				String topic = p.in.nextLine();
 
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE typical_topics = ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics = ?");
-				s13.setString(1, topic);
-				s13.setString(2, topic);
+						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE typical_topics LIKE ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics LIKE ?");
+				s13.setString(1, topic + "%");
+				s13.setString(2, topic + "%");
 
 				ResultSet rs = s13.executeQuery();
 				System.out.println("###################################");

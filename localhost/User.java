@@ -138,9 +138,9 @@ public class User {
 			// case 11:
 			// Queries.updateArticleText(this);
 			// break;
-			case 12:
-				Queries.findBook(this);
-				break;
+			// case 12:
+			// 	Queries.findBook(this);
+			// 	break;
 			case 13:
 				Queries.findBookArticle(this);
 				break;
