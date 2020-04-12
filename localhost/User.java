@@ -23,7 +23,13 @@ public class User {
 			// "\n3: Want to change you role?" +
 					"\n99: Exit\n");
 			System.out.println("\nEnter you choice: ");
-			this.role = this.in.nextInt();
+			try{
+				this.role = this.in.nextInt();
+			}
+			catch(Exception e){
+				System.out.println("Error >>" + e + "\n");
+				System.exit(0);
+			}
 			if (this.role == 99) {
 				System.out.println("Thank You\nExiting...");
 				System.exit(1);
@@ -63,7 +69,7 @@ public class User {
 
 				System.out.println("13: Find book , articles by topic, date, author's name");
 				System.out.println("14: Enter payment info for Contributors");
-				System.out.println("15: Track payment info");
+				System.out.println("15: Track payment claimed info");
 
 				System.out.println("16: Enter new Distributor");
 				System.out.println("17: Update Distributor Information");
@@ -102,7 +108,13 @@ public class User {
 				System.out.println("Invalid Input!");
 				break;
 		}
-		this.operation = this.in.nextInt();
+		try{
+			System.out.println("\nEnter your choice: ");
+			this.operation = this.in.nextInt();
+		}
+		catch(Exception e){
+			System.out.println("Error >>" + e);
+		}
 		this.run_query();
 	}
 
@@ -147,7 +159,9 @@ public class User {
 			case 14:
 				Queries.enterPayementInfo(this);
 				break;
-
+			case 15:
+				Queries.trackPayment(this);
+				break;
 			case 16:
 				Queries.enterNewDistributor(this);
 				break;
