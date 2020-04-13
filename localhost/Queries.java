@@ -331,6 +331,152 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
+
+	public static void updateBook(User p) {
+		String table = "Book";
+		Queries.showTable(p, table);
+
+		PreparedStatement s10 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("Enter an ISBN: ");
+			String isbn = p.in.nextLine();
+
+			System.out.println(
+					"What do you want to update? \n1) Date of creation (YYYY-MM-DD) \n2) Date of publication (YYYY-MM-DD)\n3) Publication ID\n4) Edition");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			if (ch == 1) {
+				System.out.println("Enter a date of creation (YYYY-MM-DD): ");
+				String doc = p.in.nextLine();
+
+				s10 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Book SET date_of_creation = ? WHERE isbn = ?");
+
+				s10.setString(1, doc);
+				s10.setString(2, isbn);
+				if (s10.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+
+			} else if (ch == 2) {
+				System.out.println("Enter a date of publication (YYYY-MM-DD): ");
+				String pd = p.in.nextLine();
+				s10 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Book SET publication_date = ? WHERE isbn = ?");
+				s10.setString(1, pd);
+				s10.setString(2, isbn);
+				if (s10.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+			} else if (ch == 3) {
+				table = "Publication";
+				Queries.showTable(p, table);
+				System.out.println();
+				System.out.println("Enter a publication ID: ");
+				String pid = p.in.nextLine();
+				s10 = (PreparedStatement) p.conn.prepareStatement("UPDATE Book SET publication_id = ? WHERE isbn = ?");
+				s10.setString(1, pid);
+				s10.setString(2, isbn);
+				if (s10.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+			} else if (ch == 4) {
+				System.out.println("Enter the edition number: ");
+				String edno = p.in.nextLine();
+				s10 = (PreparedStatement) p.conn.prepareStatement("UPDATE Book SET edition_no = ? WHERE isbn = ?");
+				s10.setString(1, edno);
+				s10.setString(2, isbn);
+				if (s10.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+			} else {
+				System.out.println("Invalid Input!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void updateIssue(User p) {
+		String table = "Issue";
+		Queries.showTable(p, table);
+
+		PreparedStatement s11 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("Enter an issue ID: ");
+			String issue_id = p.in.nextLine();
+
+			System.out.println("What do you want to update? \n1) Date of issue (YYYY-MM-DD) \n2) Publication ID");
+			System.out.println("Enter you choice: ");
+			int ch = p.in.nextInt();
+			p.in.nextLine();
+			if (ch == 1) {
+				System.out.println("Enter a date of issue (YYYY-MM-DD): ");
+				String doc = p.in.nextLine();
+
+				s11 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Issue SET date_of_issue = ? WHERE issue_id = ?");
+
+				s11.setString(1, doc);
+				s11.setString(2, issue_id);
+				if (s11.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+
+			} else if (ch == 2) {
+				table = "Publication";
+				Queries.showTable(p, table);
+				System.out.println();
+				System.out.println("Enter a publication ID: ");
+				String pid = p.in.nextLine();
+				s11 = (PreparedStatement) p.conn
+						.prepareStatement("UPDATE Issue SET publication_id = ? WHERE issue_id = ?");
+				s11.setString(1, pid);
+				s11.setString(2, issue_id);
+				if (s11.executeUpdate() == 1)
+					System.out.println("Info. updated");
+				else
+					System.out.println("Sorry, the info. couldn't be updated");
+			} else {
+				System.out.println("Invalid Input!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
+
+	public static void findArticleByContent(User p) {
+		PreparedStatement s12 = null;
+		try {
+			p.in.nextLine();
+			System.out.println("Enter the content to be searched: ");
+			String content = p.in.nextLine();
+			s12 = (PreparedStatement) p.conn
+					.prepareStatement("select article_id, date_of_creation, content from Article where content like ?");
+			s12.setString(1, "%" + content + "%");
+			ResultSet rs = s12.executeQuery();
+			System.out.println("###################################");
+			System.out.println("ID\tDate of creation\tContent");
+			System.out.println("###################################");
+
+			while (rs.next()) {
+				System.out.printf("%s\t%s\t%s", rs.getString("article_id"), rs.getString("date_of_creation"),
+						rs.getString("content"));
+				System.out.println();
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error >>" + e);
+		}
+	}
 	/*
 	 * Not needed as ANkit has convered this in findBookArticle function
 	 */

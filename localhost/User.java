@@ -64,8 +64,9 @@ public class User {
 
 				System.out.println("8: Enter a new article");
 				System.out.println("9: Update article info");
-				// System.out.println("11: Update article text");
-
+				System.out.println("10: Update a book information");
+				System.out.println("11: Update an issue information");
+				System.out.println("12: Find article by content");
 				System.out.println("13: Find book , articles by topic, date, author's name");
 				System.out.println("14: Enter payment info for Contributors");
 				System.out.println("15: Track payment claimed info");
@@ -145,12 +146,15 @@ public class User {
 			case 9:
 				Queries.updateArticleInfo(this);
 				break;
-			// case 11:
-			// Queries.updateArticleText(this);
-			// break;
-			// case 12:
-			// Queries.findBook(this);
-			// break;
+			case 10:
+				Queries.updateBook(this);
+				break;
+			case 11:
+				Queries.updateIssue(this);
+				break;
+			case 12:
+				Queries.findArticleByContent(this);
+				break;
 			case 13:
 				Queries.findBookArticle(this);
 				break;
