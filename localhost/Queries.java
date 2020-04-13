@@ -851,7 +851,7 @@ public class Queries {
 		PreparedStatement s23 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nTotal Revenue");
+			// System.out.println("\nTotal Revenue");
 			s23 = (PreparedStatement) p.conn
 					.prepareStatement("SELECT SUM(no_of_copies*price + shipping_cost) AS total FROM `Order`");
 
@@ -876,7 +876,7 @@ public class Queries {
 		try {
 			p.conn.setAutoCommit(false);
 			p.in.nextLine();
-			System.out.println("\nTotal shipping cost");
+			// System.out.println("\nTotal shipping cost");
 			s24_1 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost) FROM `Order`");
 			int shippingCost = 0;
 			ResultSet rs1 = s24_1.executeQuery();
@@ -939,7 +939,7 @@ public class Queries {
 		PreparedStatement s25 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nTotal Number of distributors");
+			// System.out.println("\nTotal Number of distributors");
 
 			s25 = (PreparedStatement) p.conn
 					.prepareStatement("SELECT COUNT(distributor_id) AS Number_of_distributors FROM Distributor");
@@ -965,7 +965,7 @@ public class Queries {
 			p.in.nextLine();
 			System.out
 					.println("Do you want the total revenue? \n1) per distributor \n2) per city \n3) per location \n");
-			System.out.println("Enter you choice: ");
+			System.out.println("Enter your choice: ");
 			int ch = p.in.nextInt();
 			p.in.nextLine();
 			if (ch == 1) {
