@@ -23,10 +23,9 @@ public class User {
 			// "\n3: Want to change you role?" +
 					"\n99: Exit\n");
 			System.out.println("\nEnter you choice: ");
-			try{
+			try {
 				this.role = this.in.nextInt();
-			}
-			catch(Exception e){
+			} catch (Exception e) {
 				System.out.println("Error >>" + e + "\n");
 				System.exit(0);
 			}
@@ -76,7 +75,7 @@ public class User {
 				System.out.println("18: Delete a Distributor");
 				System.out.println("19: Enter new order Information for a distributor");
 				System.out.println("20: Bill Distributor for an order");
-				System.out.println("21: Change outstanding balance on receipt of payment");
+				System.out.println("21: Insert outstanding balance on receipt of payment of order");
 
 				System.out.println(
 						"22: Generate montly reports: number and total price of copies of each publication bought per distributor per month");
@@ -108,11 +107,10 @@ public class User {
 				System.out.println("Invalid Input!");
 				break;
 		}
-		try{
+		try {
 			System.out.println("\nEnter your choice: ");
 			this.operation = this.in.nextInt();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
 		this.run_query();
@@ -151,8 +149,8 @@ public class User {
 			// Queries.updateArticleText(this);
 			// break;
 			// case 12:
-			// 	Queries.findBook(this);
-			// 	break;
+			// Queries.findBook(this);
+			// break;
 			case 13:
 				Queries.findBookArticle(this);
 				break;
