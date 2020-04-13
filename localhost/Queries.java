@@ -28,7 +28,6 @@ public class Queries {
 		} catch (Exception e) {
 			System.out.println("Error >>>" + e);
 		}
-
 	}
 
 	public static void enterNewPublication(User p) {
