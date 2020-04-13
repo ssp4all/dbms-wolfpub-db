@@ -296,47 +296,51 @@ public class Queries {
 		}
 	}
 	/*
-		Not needed as ANkit has convered this in findBookArticle function
-	*/
+	 * Not needed as ANkit has convered this in findBookArticle function
+	 */
 	// public static void findBook(User p) {
 
-	// 	PreparedStatement s12 = null;
-	// 	try {
-	// 		p.in.nextLine();
-	// 		System.out.println(
-	// 				"What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date of publication (YYYY-MM-DD) \n3) Topic\n4) Title\n");
-	// 		System.out.println("Enter you choice: ");
-	// 		int ch = p.in.nextInt();
-	// 		p.in.nextLine();
-	// 		if (ch == 1) {
-	// 			System.out.println("Enter a date of creation (YYYY-MM-DD): ");
-	// 			// String doc = p.in.nextLine();
+	// PreparedStatement s12 = null;
+	// try {
+	// p.in.nextLine();
+	// System.out.println(
+	// "What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date
+	// of publication (YYYY-MM-DD) \n3) Topic\n4) Title\n");
+	// System.out.println("Enter you choice: ");
+	// int ch = p.in.nextInt();
+	// p.in.nextLine();
+	// if (ch == 1) {
+	// System.out.println("Enter a date of creation (YYYY-MM-DD): ");
+	// // String doc = p.in.nextLine();
 
-	// 			s12 = (PreparedStatement) p.conn.prepareStatement(
-	// 					"SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN Publication P ON P.publication_id = B.publication_id  WHERE P.type = 'book' AND date_of_creation = '2018-10-10';");
-	// 			// s12.setString(1, doc);
-	// 			ResultSet rs = s12.executeQuery();
-	// 			System.out.println("###################################");
-	// 			System.out.println("Title\tPublication Id\tTypical Topics");
-	// 			System.out.println("###################################");
+	// s12 = (PreparedStatement) p.conn.prepareStatement(
+	// "SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN
+	// Publication P ON P.publication_id = B.publication_id WHERE P.type = 'book'
+	// AND date_of_creation = '2018-10-10';");
+	// // s12.setString(1, doc);
+	// ResultSet rs = s12.executeQuery();
+	// System.out.println("###################################");
+	// System.out.println("Title\tPublication Id\tTypical Topics");
+	// System.out.println("###################################");
 
-	// 			while (rs.next()) {
-	// 				System.out.printf("%s\t%s\t%s", rs.getString("P.title"), rs.getString("P.publication_id"),
-	// 						rs.getString("P.typical_topics"));
-	// 				System.out.println();
-	// 			}
-	// 		} else if (ch == 2) {
+	// while (rs.next()) {
+	// System.out.printf("%s\t%s\t%s", rs.getString("P.title"),
+	// rs.getString("P.publication_id"),
+	// rs.getString("P.typical_topics"));
+	// System.out.println();
+	// }
+	// } else if (ch == 2) {
 
-	// 		} else if (ch == 3) {
+	// } else if (ch == 3) {
 
-	// 		} else if (ch == 4) {
+	// } else if (ch == 4) {
 
-	// 		} else {
-	// 			System.out.println("Invalid Input!");
-	// 		}
-	// 	} catch (Exception e) {
-	// 		System.out.println("Error >>" + e);
-	// 	}
+	// } else {
+	// System.out.println("Invalid Input!");
+	// }
+	// } catch (Exception e) {
+	// System.out.println("Error >>" + e);
+	// }
 	// }
 
 	public static void findBookArticle(User p) {
@@ -411,7 +415,7 @@ public class Queries {
 
 	public static void enterPayementInfo(User p) {
 
-		PreparedStatement s14= null;
+		PreparedStatement s14 = null;
 		try {
 			p.in.nextLine();
 			System.out.println("\nEnter\n1)Contributor-id\n2)Amount\n3)Payment date(YYYY-MM-DD)\n4)Payment-id\n");
@@ -706,20 +710,58 @@ public class Queries {
 	}
 
 	public static void changeOutstandingBalance(User p) {
-		PreparedStatement s21 = null;
+		PreparedStatement s21_1 = null;
+		PreparedStatement s21_2 = null;
 		try {
-			System.out.println("\nEnter the distributor id and new balance amount to be set :");
-			String distributorId = p.in.nextLine();
-			String balance = p.in.nextLine();
-			s21 = (PreparedStatement) p.conn
-					.prepareStatement("UPDATE Distributor SET balance = ? WHERE distributor_id = ?");
-			s21.setString(1, balance);
-			s21.setString(2, distributorId);
+			p.conn.setAutoCommit(false);
 
-			if (s21.executeUpdate() == 1)
-				System.out.println("Balance Updated");
-			else
-				System.out.println("Sorry, the balance couldn't be updated");
+			System.out.println("Enter the order_id of the order for which payment received :");
+			String orderId = p.in.nextLine();
+			s21_1 = (PreparedStatement) p.conn.prepareStatement(
+					"SELECT shipping_cost, no_of_copies*cost AS order_cost FROM `Order` WHERE order_id = ?");
+			s21_1.setString(1, orderId);
+			ResultSet rs_1 = s21_1.executeQuery();
+			int shippingCost = 0;
+			int orderCost = 0;
+			String distributorId = "";
+			while (rs_1.next()) {
+				shippingCost = Integer.parseInt(rs_1.getString("shipping_cost"));
+				orderCost = Integer.parseInt(rs_1.getString("order_cost"));
+				distributorId = rs_1.getString("distributor_id");
+			}
+
+			if (!rs_1.next()) {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+
+			s21_2 = (PreparedStatement) p.conn
+					.prepareStatement("UPDATE Distributor SET balance = balance - (?+?) WHERE distributor_id = ?");
+
+			s21_2.setInt(1, shippingCost);
+			s21_2.setInt(2, orderCost);
+
+			s21_2.setString(3, distributorId);
+
+			if (s21_2.executeUpdate() != 1) {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+			p.conn.commit();
+			p.conn.setAutoCommit(true);
+
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
@@ -774,32 +816,62 @@ public class Queries {
 		PreparedStatement s24_2 = null;
 
 		try {
+			p.conn.setAutoCommit(false);
 			p.in.nextLine();
 			System.out.println("\nTotal shipping cost");
 			s24_1 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost) FROM `Order`");
-
+			int shippingCost = 0;
 			ResultSet rs1 = s24_1.executeQuery();
 			System.out.println("###################################");
 			System.out.println("Total shipping cost");
 			System.out.println("###################################");
 
 			while (rs1.next()) {
+				shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
 				System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
 				System.out.println();
 			}
 
-			s24_2 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
+			if (!rs1.next()) {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
 
+			s24_2 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
+			int salaries = 0;
 			ResultSet rs2 = s24_2.executeQuery();
 			System.out.println("###################################");
 			System.out.println("Total payment to editors & authors");
 			System.out.println("###################################");
 
 			while (rs2.next()) {
+				salaries = Integer.parseInt(rs2.getString("SUM(amount)"));
 				System.out.printf("%s", rs2.getString("SUM(amount)"));
 				System.out.println();
 			}
 
+			if (!rs2.next()) {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+
+			System.out.printf("Total expenses on contributor salary plus shipping cost is %d : ",
+					shippingCost + salaries);
+
+			p.conn.commit();
+			p.conn.setAutoCommit(true);
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
@@ -811,7 +883,8 @@ public class Queries {
 			p.in.nextLine();
 			System.out.println("\nTotal Number of distributors");
 
-			s25 = (PreparedStatement) p.conn.prepareStatement("SELECT COUNT(distributor_id) AS Number_of_distributors FROM Distributor");
+			s25 = (PreparedStatement) p.conn
+					.prepareStatement("SELECT COUNT(distributor_id) AS Number_of_distributors FROM Distributor");
 
 			ResultSet rs = s25.executeQuery();
 			System.out.println("###################################");
