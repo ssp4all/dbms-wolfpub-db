@@ -408,7 +408,6 @@ public class Queries {
 			} else if (ch == 2) {
 				System.out.println("Enter a topic to search by : ");
 				String topic = p.in.nextLine();
-				topic = "%" + topic + "%";
 				s13 = (PreparedStatement) p.conn.prepareStatement(
 						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE title LIKE ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics LIKE ?");
 				s13.setString(1, topic + "%");
@@ -426,7 +425,6 @@ public class Queries {
 			} else if (ch == 3) {
 				System.out.println("Enter Author name : ");
 				String name = p.in.nextLine();
-				name = "%" + name + "%";
 				s13 = (PreparedStatement) p.conn.prepareStatement(
 						"SELECT B.isbn AS 'Book/Article', name FROM Book B JOIN bookAuthor BA ON B.isbn = BA.isbn JOIN Contributor C ON C.contributor_id = BA.author_id WHERE name = ? UNION SELECT D.article_id AS 'Book/Article', name FROM Article D JOIN articleAuthor E ON D.article_id = E.author_id JOIN Contributor F ON F.contributor_id = E.author_id WHERE name = ?");
 				s13.setString(1, name);
