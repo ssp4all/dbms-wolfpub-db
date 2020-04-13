@@ -3,6 +3,34 @@
 import java.sql.*;
 
 public class Queries {
+	public static void showTable(User p, String table) {
+		PreparedStatement s0 = null;
+		try {
+			s0 = (PreparedStatement) p.conn.prepareStatement("select * from " + table);
+			ResultSet r0 = s0.executeQuery();
+			ResultSetMetaData meta = r0.getMetaData();
+			int columnCount = meta.getColumnCount();
+			System.out.println();
+			System.out.println(table);
+			System.out.println("###################################");
+			for (int i = 1; i <= columnCount; i++) {
+				String name = meta.getColumnName(i);
+				System.out.printf("%s\t", name);
+			}
+			System.out.println("\n###################################");
+			while (r0.next()) {
+				for (int i = 1; i <= columnCount; i++) {
+					String name = meta.getColumnName(i);
+					System.out.printf("%s\t", r0.getString(name));
+				}
+				System.out.println();
+			}
+		} catch (Exception e) {
+			System.out.println("Error >>>" + e);
+		}
+
+	}
+
 	public static void enterNewPublication(User p) {
 		/* CRUD for a publication details */
 		PreparedStatement s1 = null;
@@ -35,7 +63,8 @@ public class Queries {
 	}
 
 	public static void updatePublication(User p) {
-
+		String table = "Publication";
+		showTable(p, table);
 		PreparedStatement s2 = null;
 		try {
 			p.in.nextLine();
@@ -63,7 +92,6 @@ public class Queries {
 					System.out.println("Couldn't update the Publication Info");
 			} else if (ch == 2) {
 				System.out.println("Enter the new typical_topics : ");
-				p.in.nextLine();
 				String tt1 = p.in.nextLine();
 
 				s2 = (PreparedStatement) p.conn
@@ -111,7 +139,10 @@ public class Queries {
 	}
 
 	public static void assignEditor(User p) {
-
+		String table = "Publication";
+		Queries.showTable(p, table);
+		table = "Contributor";
+		Queries.showTable(p, table);
 		PreparedStatement s3 = null;
 		try {
 			p.in.nextLine();
@@ -134,6 +165,8 @@ public class Queries {
 	}
 
 	public static void newBookEdition(User p) {
+		String table = "Publication";
+		Queries.showTable(p, table);
 
 		PreparedStatement s4 = null;
 		try {
@@ -165,6 +198,8 @@ public class Queries {
 	}
 
 	public static void newIssuePublication(User p) {
+		String table = "Publication";
+		Queries.showTable(p, table);
 
 		PreparedStatement s5 = null;
 		try {
@@ -192,7 +227,8 @@ public class Queries {
 
 	// Pending
 	public static void deleteBookEdition(User p) {
-
+		String table = "Book";
+		Queries.showTable(p, table);
 		PreparedStatement s6 = null;
 		try {
 			p.in.nextLine();
@@ -210,7 +246,8 @@ public class Queries {
 
 	// pending
 	public static void deleteIssuePublication(User p) {
-
+		String table = "Issue";
+		Queries.showTable(p, table);
 		PreparedStatement s7 = null;
 		try {
 			p.in.nextLine();
@@ -227,7 +264,6 @@ public class Queries {
 	}
 
 	public static void enterNewArticle(User p) {
-
 		PreparedStatement s8 = null;
 		try {
 			p.in.nextLine();
@@ -253,7 +289,8 @@ public class Queries {
 	}
 
 	public static void updateArticleInfo(User p) {
-
+		String table = "Article";
+		Queries.showTable(p, table);
 		PreparedStatement s9 = null;
 		try {
 			p.in.nextLine();
@@ -344,7 +381,6 @@ public class Queries {
 	// }
 
 	public static void findBookArticle(User p) {
-
 		PreparedStatement s13 = null;
 		try {
 			p.in.nextLine();
@@ -373,9 +409,9 @@ public class Queries {
 			} else if (ch == 2) {
 				System.out.println("Enter a topic to search by : ");
 				String topic = p.in.nextLine();
-
+				topic = "%" + topic + "%";
 				s13 = (PreparedStatement) p.conn.prepareStatement(
-						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE typical_topics LIKE ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics LIKE ?");
+						"SELECT X.isbn AS 'Book/Article', Y.typical_topics AS Topic FROM Book X JOIN Publication Y ON X.publication_id = Y.publication_id WHERE title LIKE ? UNION SELECT A.article_id AS 'Book/Article' , C.typical_topics AS Topic FROM consistOf A JOIN Issue B ON A.issue_id = B.issue_id JOIN Publication C ON B.publication_id = C.publication_id  WHERE  typical_topics LIKE ?");
 				s13.setString(1, topic + "%");
 				s13.setString(2, topic + "%");
 
@@ -391,7 +427,7 @@ public class Queries {
 			} else if (ch == 3) {
 				System.out.println("Enter Author name : ");
 				String name = p.in.nextLine();
-
+				name = "%" + name + "%";
 				s13 = (PreparedStatement) p.conn.prepareStatement(
 						"SELECT B.isbn AS 'Book/Article', name FROM Book B JOIN bookAuthor BA ON B.isbn = BA.isbn JOIN Contributor C ON C.contributor_id = BA.author_id WHERE name = ? UNION SELECT D.article_id AS 'Book/Article', name FROM Article D JOIN articleAuthor E ON D.article_id = E.author_id JOIN Contributor F ON F.contributor_id = E.author_id WHERE name = ?");
 				s13.setString(1, name);
@@ -414,7 +450,8 @@ public class Queries {
 	}
 
 	public static void enterPayementInfo(User p) {
-
+		String table = "Contributor";
+		Queries.showTable(p, table);
 		PreparedStatement s14 = null;
 		try {
 			p.in.nextLine();
@@ -441,7 +478,8 @@ public class Queries {
 	}
 
 	public static void trackPayment(User p) {
-
+		String table = "Contributor";
+		Queries.showTable(p, table);
 		PreparedStatement s15 = null;
 		try {
 			p.in.nextLine();
@@ -498,7 +536,8 @@ public class Queries {
 		PreparedStatement s16 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the new distributor details :");
+			System.out.println(
+					"\nEnter the new distributor details :\n1) Distributor ID\n2) Name\n3) Distributor type\n4) Address\n5) City\n6) Contact person \n7) Balance\n8) Phone number");
 			String distributorId = p.in.nextLine();
 			String name = p.in.nextLine();
 			String distType = p.in.nextLine();
@@ -529,10 +568,10 @@ public class Queries {
 	}
 
 	public static void updateDistributor(User p) {
-
+		String table = "Distributor";
+		Queries.showTable(p, table);
 		PreparedStatement s17 = null;
 		try {
-			p.in.nextLine();
 			p.in.nextLine();
 			System.out.println("\nEnter the distributor_id of the record to be updated: ");
 			String distributorId = p.in.nextLine();
@@ -556,7 +595,6 @@ public class Queries {
 					System.out.println("Couldn't update the Distributor Info");
 			} else if (ch == 2) {
 				System.out.println("Enter the new dist_type : ");
-				p.in.nextLine();
 				String type = p.in.nextLine();
 
 				s17 = (PreparedStatement) p.conn
@@ -583,7 +621,6 @@ public class Queries {
 					System.out.println("Couldn't update the Distributor Info");
 			} else if (ch == 4) {
 				System.out.println("Enter the new city : ");
-				p.in.nextLine();
 				String city = p.in.nextLine();
 
 				s17 = (PreparedStatement) p.conn
@@ -597,7 +634,6 @@ public class Queries {
 					System.out.println("Couldn't update the Distributor Info");
 			} else if (ch == 5) {
 				System.out.println("Enter the new contact person : ");
-				p.in.nextLine();
 				String contactPerson = p.in.nextLine();
 
 				s17 = (PreparedStatement) p.conn
@@ -611,7 +647,6 @@ public class Queries {
 					System.out.println("Couldn't update the Distributor Info");
 			} else if (ch == 6) {
 				System.out.println("Enter the new balance : ");
-				p.in.nextLine();
 				String balance = p.in.nextLine();
 
 				s17 = (PreparedStatement) p.conn
@@ -632,8 +667,11 @@ public class Queries {
 	}
 
 	public static void deleteDistributor(User p) {
+		String table = "Distributor";
+		Queries.showTable(p, table);
 		PreparedStatement s18 = null;
 		try {
+			p.in.nextLine();
 			System.out.println("\nEnter the distributor id of the distributor you want to delete : ");
 			String distributorId = p.in.nextLine();
 
@@ -650,10 +688,17 @@ public class Queries {
 	}
 
 	public static void addNewOrder(User p) {
+		String table = "Distributor";
+		Queries.showTable(p, table);
+		table = "Book";
+		Queries.showTable(p, table);
+		table = "Issue";
+		Queries.showTable(p, table);
 		PreparedStatement s19 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the new order details with book / issue of a publication for a distributor :");
+			System.out.println(
+					"\nEnter the new order details with book / issue of a publication for a distributor :\n1) Order ID\n2) Shipping cost\n3) Price\n4) Order date\n5) Number of copies\n6) Book ID\n7) Issue ID\n8) Payment Status\n9) Distributor ID\n10) Delivery date");
 			String orderId = p.in.nextLine();
 			String shippingCost = p.in.nextLine();
 			String price = p.in.nextLine();
@@ -663,8 +708,9 @@ public class Queries {
 			String issueId = p.in.nextLine();
 			String paymentStatus = p.in.nextLine();
 			String distributorId = p.in.nextLine();
+			String deliveryDate = p.in.nextLine();
 
-			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?)");
+			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?,?)");
 			s19.setString(1, orderId);
 			s19.setString(2, shippingCost);
 			s19.setString(3, price);
@@ -674,6 +720,7 @@ public class Queries {
 			s19.setString(7, issueId);
 			s19.setString(8, paymentStatus);
 			s19.setString(9, distributorId);
+			s19.setString(10, deliveryDate);
 
 			if (s19.executeUpdate() == 1)
 				System.out.println("New Order Added");
@@ -686,13 +733,15 @@ public class Queries {
 	}
 
 	public static void billDistributor(User p) {
+		String table = "`Order`";
+		Queries.showTable(p, table);
 		PreparedStatement s20 = null;
 		try {
 			p.in.nextLine();
 			System.out.println("\nEnter the order id to bill distributor for :");
 			String orderId = p.in.nextLine();
 			s20 = (PreparedStatement) p.conn.prepareStatement(
-					"SELECT SUM(price * no_of_copies) AS Bill_Amount FROM `Order` WHERE order_id = ?");
+					"SELECT SUM(price * no_of_copies + shipping_cost) AS Bill_Amount FROM `Order` WHERE order_id = ?");
 			s20.setString(1, orderId);
 
 			ResultSet rs = s20.executeQuery();
@@ -710,15 +759,20 @@ public class Queries {
 	}
 
 	public static void changeOutstandingBalance(User p) {
+		String table = "`Order`";
+		Queries.showTable(p, table);
+
 		PreparedStatement s21_1 = null;
 		PreparedStatement s21_2 = null;
+		PreparedStatement s21_3 = null;
 		try {
+			p.in.nextLine();
 			p.conn.setAutoCommit(false);
 
 			System.out.println("Enter the order_id of the order for which payment received :");
 			String orderId = p.in.nextLine();
 			s21_1 = (PreparedStatement) p.conn.prepareStatement(
-					"SELECT shipping_cost, no_of_copies*cost AS order_cost FROM `Order` WHERE order_id = ?");
+					"SELECT shipping_cost, no_of_copies*price, distributor_id AS order_cost FROM `Order` WHERE order_id = ?");
 			s21_1.setString(1, orderId);
 			ResultSet rs_1 = s21_1.executeQuery();
 			int shippingCost = 0;
@@ -730,17 +784,20 @@ public class Queries {
 				distributorId = rs_1.getString("distributor_id");
 			}
 
-			if (!rs_1.next()) {
-				try {
-					p.conn.rollback();
-					p.conn.setAutoCommit(true);
-					System.out.println("Transaction failed");
-					return;
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
+			// if (!rs_1.next()) {
+			// try {
+			// p.conn.rollback();
+			// p.conn.setAutoCommit(true);
+			// System.out.println("Transaction failed");
+			// return;
+			// } catch (Exception e) {
+			// System.out.println(e);
+			// }
+			// }
 
+			s21_3 = (PreparedStatement) p.conn
+					.prepareStatement("UPDATE `Order` SET payment_status = 'paid' WHERE order_id = ?");
+			s21_3.setString(1, orderId);
 			s21_2 = (PreparedStatement) p.conn
 					.prepareStatement("UPDATE Distributor SET balance = balance - (?+?) WHERE distributor_id = ?");
 
@@ -749,7 +806,7 @@ public class Queries {
 
 			s21_2.setString(3, distributorId);
 
-			if (s21_2.executeUpdate() != 1) {
+			if (s21_3.executeUpdate() != 1 || s21_2.executeUpdate() != 1) {
 				try {
 					p.conn.rollback();
 					p.conn.setAutoCommit(true);
@@ -768,6 +825,7 @@ public class Queries {
 	}
 
 	public static void getMonthlyReport(User p) {
+
 		PreparedStatement s22 = null;
 		try {
 			p.in.nextLine();
@@ -782,7 +840,7 @@ public class Queries {
 
 			while (rs.next()) {
 				System.out.printf("%s\t%s\t%s\t%s\t%s", rs.getString("total_amount"), rs.getString("total_copies"),
-						rs.getString("distributor_id"), rs.getString("date"), rs.getString("Book.publication_id"));
+						rs.getString("distributor_id"), rs.getString("date"), rs.getString("publication_id"));
 				System.out.println();
 			}
 		} catch (Exception e) {
@@ -795,7 +853,8 @@ public class Queries {
 		try {
 			p.in.nextLine();
 			System.out.println("\nTotal Revenue");
-			s23 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(no_of_copies*price) AS total FROM `Order`");
+			s23 = (PreparedStatement) p.conn
+					.prepareStatement("SELECT SUM(no_of_copies*price + shipping_cost) AS total FROM `Order`");
 
 			ResultSet rs = s23.executeQuery();
 			System.out.println("###################################");
@@ -832,16 +891,16 @@ public class Queries {
 				System.out.println();
 			}
 
-			if (!rs1.next()) {
-				try {
-					p.conn.rollback();
-					p.conn.setAutoCommit(true);
-					System.out.println("Transaction failed");
-					return;
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
+			// if (!rs1.next()) {
+			// try {
+			// p.conn.rollback();
+			// p.conn.setAutoCommit(true);
+			// System.out.println("Transaction failed");
+			// return;
+			// } catch (Exception e) {
+			// System.out.println(e);
+			// }
+			// }
 
 			s24_2 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
 			int salaries = 0;
@@ -856,18 +915,18 @@ public class Queries {
 				System.out.println();
 			}
 
-			if (!rs2.next()) {
-				try {
-					p.conn.rollback();
-					p.conn.setAutoCommit(true);
-					System.out.println("Transaction failed");
-					return;
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
+			// if (!rs2.next()) {
+			// try {
+			// p.conn.rollback();
+			// p.conn.setAutoCommit(true);
+			// System.out.println("Transaction failed");
+			// return;
+			// } catch (Exception e) {
+			// System.out.println(e);
+			// }
+			// }
 
-			System.out.printf("Total expenses on contributor salary plus shipping cost is %d : ",
+			System.out.printf("Total expenses on contributor salary plus shipping cost is %d ",
 					shippingCost + salaries);
 
 			p.conn.commit();
@@ -987,6 +1046,8 @@ public class Queries {
 	}
 
 	public static void viewPubInfoReponsible(User p) {
+		String table = "`Contributor`";
+		Queries.showTable(p, table);
 		PreparedStatement s28 = null;
 		try {
 			p.in.nextLine();
@@ -1013,6 +1074,10 @@ public class Queries {
 	}
 
 	public static void addArticles(User p) {
+		String table = "`Issue`";
+		Queries.showTable(p, table);
+		table = "`Article`";
+		Queries.showTable(p, table);
 		PreparedStatement s29 = null;
 		try {
 			p.in.nextLine();
@@ -1033,6 +1098,12 @@ public class Queries {
 	}
 
 	public static void deleteArticle(User p) {
+		String table = "consistOf";
+		Queries.showTable(p, table);
+		table = "`Article`";
+		Queries.showTable(p, table);
+		table = "`Issue`";
+		Queries.showTable(p, table);
 		PreparedStatement s30 = null;
 		try {
 			p.in.nextLine();
@@ -1054,10 +1125,13 @@ public class Queries {
 	}
 
 	public static void addChapter(User p) {
+		String table = "`Book`";
+		Queries.showTable(p, table);
 		PreparedStatement s31 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the Chapter id and Book ISBN in which chapter is to inserted : ");
+			System.out
+					.println("\nEnter the \n1) Chapter ID\n2) Chapter Number\n3) Chapter Name\n4) Content\n5) ISBN : ");
 			String chapterId = p.in.nextLine();
 			String chapterNo = p.in.nextLine();
 			String chapterName = p.in.nextLine();
@@ -1081,13 +1155,16 @@ public class Queries {
 	}
 
 	public static void deleteChapter(User p) {
+		String table = "`Chapter`";
+		Queries.showTable(p, table);
+
 		PreparedStatement s32 = null;
 		try {
 			p.in.nextLine();
-			System.out.println("\nEnter the Chapter id and Book ISBN from which a chapter is to be deleted : ");
+			System.out.println("\nEnter the Chapter id to be deleted : ");
 			String chapterId = p.in.nextLine();
 
-			s32 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM Chapter WHERE chapter = ?");
+			s32 = (PreparedStatement) p.conn.prepareStatement("DELETE FROM Chapter WHERE chapter_id = ?");
 			s32.setString(1, chapterId);
 
 			if (s32.executeUpdate() == 1)
