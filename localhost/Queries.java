@@ -696,7 +696,7 @@ public class Queries {
 			p.conn.setAutoCommit(false);
 			p.in.nextLine();
 			System.out.println(
-					"\nEnter the new order details with book / issue of a publication for a distributor :\n1) Order ID\n2) Shipping cost\n3) Price\n4) Order date\n5) Number of copies\n6) Book ID\n7) Issue ID\n8) Payment Status\n9) Distributor ID\n10) Delivery date");
+					"\nEnter the new order details with \nbook / issue of a publication for a distributor :\n1) Order ID\n2) Shipping cost\n3) Price\n4) Order date\n5) Number of copies\n6) Book ID\n7) Issue ID\n8) Payment Status\n9) Distributor ID\n10) Delivery date");
 			String orderId = p.in.nextLine();
 			String shippingCost = p.in.nextLine();
 			String price = p.in.nextLine();
