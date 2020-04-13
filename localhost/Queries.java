@@ -709,7 +709,9 @@ public class Queries {
 			String deliveryDate = p.in.nextLine();
 
 			String publicationId = "";
-			if (bookId == "NULL") {
+			System.out.println();
+
+			if (bookId.equals("null") == true) {
 				PreparedStatement s19_1 = null;
 				s19_1 = (PreparedStatement) p.conn
 						.prepareStatement("SELECT publication_id FROM Issue where issue_id = ?");
@@ -718,7 +720,7 @@ public class Queries {
 				while (rs1.next()) {
 					publicationId = rs1.getString("publication_id");
 				}
-			} else if (issueId == "NULL") {
+			} else {
 				PreparedStatement s19_2 = null;
 				s19_2 = (PreparedStatement) p.conn.prepareStatement("SELECT publication_id FROM Book where isbn = ?");
 				s19_2.setString(1, bookId);
@@ -727,7 +729,6 @@ public class Queries {
 					publicationId = rs2.getString("publication_id");
 				}
 			}
-
 			if (publicationId == "") {
 				try {
 					p.conn.rollback();
@@ -738,7 +739,10 @@ public class Queries {
 					System.out.println(e);
 				}
 			}
-
+			if (bookId.equals("null") == true)
+				bookId = null;
+			else
+				issueId = null;
 			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			s19.setString(1, orderId);
 			s19.setString(2, shippingCost);
@@ -749,8 +753,8 @@ public class Queries {
 			s19.setString(7, issueId);
 			s19.setString(8, paymentStatus);
 			s19.setString(9, distributorId);
-			s19.setString(10, deliveryDate);
-			s19.setString(11, publicationId);
+			s19.setString(10, publicationId);
+			s19.setString(11, deliveryDate);
 
 			if (s19.executeUpdate() == 1) {
 				System.out.println("New Order Added");
