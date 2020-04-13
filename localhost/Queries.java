@@ -3,6 +3,8 @@
 import java.sql.*;
 
 public class Queries {
+
+	// Used to display entire table
 	public static void showTable(User p, String table) {
 		PreparedStatement s0 = null;
 		try {
@@ -30,8 +32,12 @@ public class Queries {
 		}
 	}
 
+	/*
+	 * Enters info for a new publication Input : Attribute values Output :
+	 * Confirmation message
+	 */
 	public static void enterNewPublication(User p) {
-		/* CRUD for a publication details */
+
 		PreparedStatement s1 = null;
 
 		try {
@@ -46,13 +52,14 @@ public class Queries {
 			String periodicity = p.in.nextLine();
 
 			s1 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO Publication VALUES (?,?,?,?,?)");
+			// Assigning values to the prepared statement
 			s1.setString(1, publication_id);
 			s1.setString(2, title);
 			s1.setString(3, typical_topics);
 			s1.setString(4, type);
 			s1.setString(5, periodicity);
 
-			if (s1.executeUpdate() == 1)
+			if (s1.executeUpdate() == 1) // Execute Query
 				System.out.println("Publication Info added");
 			else
 				System.out.println("Sorry, the Publication info. couldn't be added");
@@ -61,6 +68,10 @@ public class Queries {
 		}
 	}
 
+	/*
+	 * Update info for a new publication Input : Attribute values to be changed
+	 * Output : Confirmation message
+	 */
 	public static void updatePublication(User p) {
 		String table = "Publication";
 		showTable(p, table);
@@ -75,9 +86,7 @@ public class Queries {
 			System.out.println("Enter you choice: ");
 			int ch = p.in.nextInt();
 			p.in.nextLine();
-			// p.in.nextLine();
 			if (ch == 1) {
-				// p.in.nextLine();
 				System.out.println("Enter a new title: ");
 				String title1 = p.in.nextLine();
 				s2 = (PreparedStatement) p.conn
@@ -137,6 +146,10 @@ public class Queries {
 		}
 	}
 
+	/*
+	 * Assign editors to a publication Input : editor_id and publication_id Output :
+	 * Confirmation message
+	 */
 	public static void assignEditor(User p) {
 		String table = "Publication";
 		Queries.showTable(p, table);
@@ -163,6 +176,10 @@ public class Queries {
 		}
 	}
 
+	/*
+	 * Enters new book edition Input : Attribute values Output : Confirmation
+	 * message
+	 */
 	public static void newBookEdition(User p) {
 		String table = "Publication";
 		Queries.showTable(p, table);
@@ -196,6 +213,10 @@ public class Queries {
 		}
 	}
 
+	/*
+	 * Enters new issue of publication Input : Attribute values Output :
+	 * Confirmation message
+	 */
 	public static void newIssuePublication(User p) {
 		String table = "Publication";
 		Queries.showTable(p, table);
@@ -224,7 +245,9 @@ public class Queries {
 		}
 	}
 
-	// Pending
+	/*
+	 * Deletes a book edition Input : isbn Output : Confirmation message
+	 */
 	public static void deleteBookEdition(User p) {
 		String table = "Book";
 		Queries.showTable(p, table);
@@ -243,7 +266,10 @@ public class Queries {
 		}
 	}
 
-	// pending
+	// Delete an issue of a publication
+	// Input : issue_id
+	// Output : Confirmation
+
 	public static void deleteIssuePublication(User p) {
 		String table = "Issue";
 		Queries.showTable(p, table);
@@ -262,6 +288,9 @@ public class Queries {
 		}
 	}
 
+	// Enter new article
+	// Input : attribute values
+	// Output : Confirmation
 	public static void enterNewArticle(User p) {
 		PreparedStatement s8 = null;
 		try {
@@ -287,6 +316,9 @@ public class Queries {
 		}
 	}
 
+	// Update article Info
+	// Input : article_id
+	// Output : Confirmation
 	public static void updateArticleInfo(User p) {
 		String table = "Article";
 		Queries.showTable(p, table);
@@ -332,6 +364,9 @@ public class Queries {
 		}
 	}
 
+	// Update book info
+	// Input : isbn
+	// Output : Confirmation
 	public static void updateBook(User p) {
 		String table = "Book";
 		Queries.showTable(p, table);
@@ -403,6 +438,9 @@ public class Queries {
 		}
 	}
 
+	// Update issue info
+	// Input : issue_id
+	// Output : Confirmation
 	public static void updateIssue(User p) {
 		String table = "Issue";
 		Queries.showTable(p, table);
@@ -453,6 +491,9 @@ public class Queries {
 		}
 	}
 
+	// Find books using content
+	// Input : content value (words)
+	// Output : Article table with matching content
 	public static void findArticleByContent(User p) {
 		PreparedStatement s12 = null;
 		try {
@@ -477,54 +518,10 @@ public class Queries {
 			System.out.println("Error >>" + e);
 		}
 	}
-	/*
-	 * Not needed as ANkit has convered this in findBookArticle function
-	 */
-	// public static void findBook(User p) {
 
-	// PreparedStatement s12 = null;
-	// try {
-	// p.in.nextLine();
-	// System.out.println(
-	// "What do you want to search by? \n1) Date of creation (YYYY-MM-DD)\n2) Date
-	// of publication (YYYY-MM-DD) \n3) Topic\n4) Title\n");
-	// System.out.println("Enter you choice: ");
-	// int ch = p.in.nextInt();
-	// p.in.nextLine();
-	// if (ch == 1) {
-	// System.out.println("Enter a date of creation (YYYY-MM-DD): ");
-	// // String doc = p.in.nextLine();
-
-	// s12 = (PreparedStatement) p.conn.prepareStatement(
-	// "SELECT P.title, P.publication_id, P.typical_topics FROM Book B JOIN
-	// Publication P ON P.publication_id = B.publication_id WHERE P.type = 'book'
-	// AND date_of_creation = '2018-10-10';");
-	// // s12.setString(1, doc);
-	// ResultSet rs = s12.executeQuery();
-	// System.out.println("###################################");
-	// System.out.println("Title\tPublication Id\tTypical Topics");
-	// System.out.println("###################################");
-
-	// while (rs.next()) {
-	// System.out.printf("%s\t%s\t%s", rs.getString("P.title"),
-	// rs.getString("P.publication_id"),
-	// rs.getString("P.typical_topics"));
-	// System.out.println();
-	// }
-	// } else if (ch == 2) {
-
-	// } else if (ch == 3) {
-
-	// } else if (ch == 4) {
-
-	// } else {
-	// System.out.println("Invalid Input!");
-	// }
-	// } catch (Exception e) {
-	// System.out.println("Error >>" + e);
-	// }
-	// }
-
+	// Find book / articles using date, typical_topics and author name
+	// Input : date / typical_topics / author name
+	// Output : isbn / article id with matching attribute values
 	public static void findBookArticle(User p) {
 		PreparedStatement s13 = null;
 		try {
@@ -592,6 +589,9 @@ public class Queries {
 		}
 	}
 
+	// Enter payment info for contributors
+	// Input : attribute values
+	// Output : confirmation
 	public static void enterPayementInfo(User p) {
 		String table = "Contributor";
 		Queries.showTable(p, table);
@@ -620,6 +620,9 @@ public class Queries {
 		}
 	}
 
+	// Track payment info for contributors
+	// Input : contributor_id
+	// Output : Records from Pays tables matching input values
 	public static void trackPayment(User p) {
 		String table = "Contributor";
 		Queries.showTable(p, table);
@@ -648,33 +651,9 @@ public class Queries {
 		}
 	}
 
-	// public static void findBook(User p) {
-
-	// PreparedStatement s13 = null;
-	// try {
-	// System.out.println("\nEnter the publication_id of the record to which editor
-	// has to be assigned: ");
-
-	// String pub_id = p.in.nextLine();
-	// }
-	// catch (Exception e) {
-	// System.out.println("Error >>" + e);
-	// }
-	// }
-	// public static void enterPayementInfo(User p) {
-
-	// PreparedStatement s14 = null;
-	// try {
-	// System.out.println("\nEnter the publication_id of the record to which editor
-	// has to be assigned: ");
-
-	// String pub_id = p.in.nextLine();
-	// }
-	// catch (Exception e) {
-	// System.out.println("Error >>" + e);
-	// }
-	// }
-
+	// Enter info for new distributors
+	// Input : attribute values
+	// Output : confirmation
 	public static void enterNewDistributor(User p) {
 		PreparedStatement s16 = null;
 		try {
@@ -710,6 +689,9 @@ public class Queries {
 		}
 	}
 
+	// Update info for existing distributors
+	// Input : distributor_id
+	// Output : confirmation
 	public static void updateDistributor(User p) {
 		String table = "Distributor";
 		Queries.showTable(p, table);
@@ -809,6 +791,9 @@ public class Queries {
 		}
 	}
 
+	// Delete distributors
+	// Input : distributor_id
+	// Output : confirmation
 	public static void deleteDistributor(User p) {
 		String table = "Distributor";
 		Queries.showTable(p, table);
@@ -830,6 +815,9 @@ public class Queries {
 		}
 	}
 
+	// Enter info for new order
+	// Input : attribute values
+	// Output : confirmation
 	public static void addNewOrder(User p) {
 		String table = "Distributor";
 		Queries.showTable(p, table);
@@ -918,6 +906,9 @@ public class Queries {
 		}
 	}
 
+	// Display bill amount for distributors
+	// Input : order_id
+	// Output : bill amount
 	public static void billDistributor(User p) {
 		String table = "`Order`";
 		Queries.showTable(p, table);
@@ -944,6 +935,9 @@ public class Queries {
 		}
 	}
 
+	// Change balance for distributors
+	// Input : order_id
+	// Output : Order table paid status is changed and balance is updated
 	public static void changeOutstandingBalance(User p) {
 		String table = "`Order`";
 		Queries.showTable(p, table);
@@ -981,16 +975,6 @@ public class Queries {
 					System.out.println(e);
 				}
 			}
-			// if (!rs_1.next()) {
-			// try {
-			// p.conn.rollback();
-			// p.conn.setAutoCommit(true);
-			// System.out.println("Transaction failed");
-			// return;
-			// } catch (Exception e) {
-			// System.out.println(e);
-			// }
-			// }
 
 			s21_3 = (PreparedStatement) p.conn
 					.prepareStatement("UPDATE `Order` SET payment_status = 'paid' WHERE order_id = ?");
@@ -1021,6 +1005,9 @@ public class Queries {
 		}
 	}
 
+	// Get monthly reports with number of copies, total cost
+	// Input : no input required
+	// Output : list of orders grouped per distributor, per publication, per month
 	public static void getMonthlyReport(User p) {
 
 		PreparedStatement s22 = null;
@@ -1045,6 +1032,9 @@ public class Queries {
 		}
 	}
 
+	// Get total revenue of publishing house
+	// Input : no input required
+	// Output : numerical value with revenue earned by selling copies
 	public static void totalRevenue(User p) {
 		PreparedStatement s23 = null;
 		try {
@@ -1067,88 +1057,38 @@ public class Queries {
 		}
 	}
 
+	// Get total expenses of the publishing house
+	// Input : no input required
+	// Output : numerical value containing salaries of contributors
 	public static void totalExpenses(User p) {
 		PreparedStatement s24 = null;
 
 		try {
-			// p.in.nextLine();
-			// // System.out.println("\nTotal shipping cost");
-			// s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost)
-			// FROM `Order`");
-			// // int shippingCost = 0;
-			// ResultSet rs1 = s24.executeQuery();
-			// System.out.println("###################################");
-			// System.out.println("Total shipping cost");
-			// System.out.println("###################################");
-
-			// while (rs1.next()) {
-			// // shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
-			// System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
-			// System.out.println();
-			// }
-			// s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost)
-			// FROM `Order`");
-			// int shippingCost = 0;
-			// ResultSet rs1 = s24.executeQuery();
-			// System.out.println("###################################");
-			// System.out.println("Total shipping cost");
-			// System.out.println("###################################");
-
-			// while (rs1.next()) {
-			// shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
-			// System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
-			// System.out.println();
-			// }
-
-			// if (!rs1.next()) {
-			// try {
-			// p.conn.rollback();
-			// p.conn.setAutoCommit(true);
-			// System.out.println("Transaction failed");
-			// return;
-			// } catch (Exception e) {
-			// System.out.println(e);
-			// }
-			// }
-
 			s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
-			// int salaries = 0;
+
 			ResultSet rs2 = s24.executeQuery();
 			System.out.println("###################################");
 			System.out.println("Total payment to editors & authors");
 			System.out.println("###################################");
 
 			while (rs2.next()) {
-				// salaries = Integer.parseInt(rs2.getString("SUM(amount)"));
+
 				System.out.printf("%s", rs2.getString("SUM(amount)"));
 				System.out.println();
 			}
 
-			// if (!rs2.next()) {
-			// try {
-			// p.conn.rollback();
-			// p.conn.setAutoCommit(true);
-			// System.out.println("Transaction failed");
-			// return;
-			// } catch (Exception e) {
-			// System.out.println(e);
-			// }
-			// }
-
-			// System.out.printf("Total expenses on contributor salary is %d ", salaries);
-
-			// p.conn.commit();
-			// p.conn.setAutoCommit(true);
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
 	}
 
+	// Get number of distributors
+	// Input : no input required
+	// Output : number of distributors
 	public static void totalNumberOfDistributors(User p) {
 		PreparedStatement s25 = null;
 		try {
 			p.in.nextLine();
-			// System.out.println("\nTotal Number of distributors");
 
 			s25 = (PreparedStatement) p.conn
 					.prepareStatement("SELECT COUNT(distributor_id) AS Number_of_distributors FROM Distributor");
@@ -1168,6 +1108,9 @@ public class Queries {
 		}
 	}
 
+	// Get revenue per distributor, per city, per location
+	// Input : no input required
+	// Output : Revenue grouped per distributor, per city, per location
 	public static void totalRevenueOrder(User p) {
 		PreparedStatement s26 = null;
 		try {
@@ -1228,6 +1171,9 @@ public class Queries {
 		}
 	}
 
+	// View payment info per work type
+	// Input : no input required
+	// Output : Records from Pays grouped by work type
 	public static void viewPaymentPerWorkType(User p) {
 		PreparedStatement s27 = null;
 		try {
@@ -1253,6 +1199,9 @@ public class Queries {
 		}
 	}
 
+	// View publication info for which contributor is responsible for
+	// Input : contributor_id
+	// Output : Records from worksFor table with matching contributor_id
 	public static void viewPubInfoReponsible(User p) {
 		String table = "`Contributor`";
 		Queries.showTable(p, table);
@@ -1281,6 +1230,9 @@ public class Queries {
 		}
 	}
 
+	// Enter new articles
+	// Input : attribute values
+	// Output : confirmation message
 	public static void addArticles(User p) {
 		String table = "`Issue`";
 		Queries.showTable(p, table);
@@ -1305,6 +1257,10 @@ public class Queries {
 		}
 	}
 
+	// Delete articles
+	// Input : article_id, issue_id
+	// Output : deletes articles with given id for a particular issue and displays
+	// confirmation
 	public static void deleteArticle(User p) {
 		String table = "consistOf";
 		Queries.showTable(p, table);
@@ -1332,6 +1288,9 @@ public class Queries {
 		}
 	}
 
+	// Add a new chapter
+	// Input : attribute values
+	// Output : confirmation message
 	public static void addChapter(User p) {
 		String table = "`Book`";
 		Queries.showTable(p, table);
@@ -1362,6 +1321,9 @@ public class Queries {
 		}
 	}
 
+	// Delete a chapter
+	// Input : chapter_id
+	// Output : confirmation message
 	public static void deleteChapter(User p) {
 		String table = "`Chapter`";
 		Queries.showTable(p, table);
