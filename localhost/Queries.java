@@ -921,20 +921,21 @@ public class Queries {
 		PreparedStatement s24 = null;
 
 		try {
-			p.in.nextLine();
-			// System.out.println("\nTotal shipping cost");
-			s24_1 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost) FROM `Order`");
-			int shippingCost = 0;
-			ResultSet rs1 = s24_1.executeQuery();
-			System.out.println("###################################");
-			System.out.println("Total shipping cost");
-			System.out.println("###################################");
+			// p.in.nextLine();
+			// // System.out.println("\nTotal shipping cost");
+			// s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost)
+			// FROM `Order`");
+			// // int shippingCost = 0;
+			// ResultSet rs1 = s24.executeQuery();
+			// System.out.println("###################################");
+			// System.out.println("Total shipping cost");
+			// System.out.println("###################################");
 
-			while (rs1.next()) {
-				shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
-				System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
-				System.out.println();
-			}
+			// while (rs1.next()) {
+			// // shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
+			// System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
+			// System.out.println();
+			// }
 			// s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost)
 			// FROM `Order`");
 			// int shippingCost = 0;
