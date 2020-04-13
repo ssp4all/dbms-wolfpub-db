@@ -696,6 +696,7 @@ public class Queries {
 		Queries.showTable(p, table);
 		PreparedStatement s19 = null;
 		try {
+			p.conn.setAutoCommit(false);
 			p.in.nextLine();
 			System.out.println(
 					"\nEnter the new order details with book / issue of a publication for a distributor :\n1) Order ID\n2) Shipping cost\n3) Price\n4) Order date\n5) Number of copies\n6) Book ID\n7) Issue ID\n8) Payment Status\n9) Distributor ID\n10) Delivery date");
@@ -710,7 +711,38 @@ public class Queries {
 			String distributorId = p.in.nextLine();
 			String deliveryDate = p.in.nextLine();
 
-			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?,?)");
+			String publicationId = "";
+			if (bookId == "NULL") {
+				PreparedStatement s19_1 = null;
+				s19_1 = (PreparedStatement) p.conn
+						.prepareStatement("SELECT publication_id FROM Issue where issue_id = ?");
+				s19_1.setString(1, issueId);
+				ResultSet rs1 = s19_1.executeQuery();
+				while (rs1.next()) {
+					publicationId = rs1.getString("publication_id");
+				}
+			} else if (issueId == "NULL") {
+				PreparedStatement s19_2 = null;
+				s19_2 = (PreparedStatement) p.conn.prepareStatement("SELECT publication_id FROM Book where isbn = ?");
+				s19_2.setString(1, bookId);
+				ResultSet rs2 = s19_2.executeQuery();
+				while (rs2.next()) {
+					publicationId = rs2.getString("publication_id");
+				}
+			}
+
+			if (publicationId == "") {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+
+			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			s19.setString(1, orderId);
 			s19.setString(2, shippingCost);
 			s19.setString(3, price);
@@ -721,11 +753,18 @@ public class Queries {
 			s19.setString(8, paymentStatus);
 			s19.setString(9, distributorId);
 			s19.setString(10, deliveryDate);
+			s19.setString(11, publicationId);
 
-			if (s19.executeUpdate() == 1)
+			if (s19.executeUpdate() == 1) {
 				System.out.println("New Order Added");
-			else
+			} else {
 				System.out.println("Sorry, the order couldn't be added");
+				p.conn.rollback();
+				p.conn.setAutoCommit(true);
+				System.out.println("Transaction failed");
+			}
+			p.conn.commit();
+			p.conn.setAutoCommit(true);
 
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
@@ -772,18 +811,29 @@ public class Queries {
 			System.out.println("Enter the order_id of the order for which payment received :");
 			String orderId = p.in.nextLine();
 			s21_1 = (PreparedStatement) p.conn.prepareStatement(
-					"SELECT shipping_cost, no_of_copies*price, distributor_id AS order_cost FROM `Order` WHERE order_id = ?");
+					"SELECT shipping_cost, no_of_copies*price AS order_cost, distributor_id FROM `Order` WHERE order_id = ?");
 			s21_1.setString(1, orderId);
 			ResultSet rs_1 = s21_1.executeQuery();
 			int shippingCost = 0;
 			int orderCost = 0;
 			String distributorId = "";
+
 			while (rs_1.next()) {
 				shippingCost = Integer.parseInt(rs_1.getString("shipping_cost"));
 				orderCost = Integer.parseInt(rs_1.getString("order_cost"));
 				distributorId = rs_1.getString("distributor_id");
 			}
 
+			if (distributorId == "") {
+				try {
+					p.conn.rollback();
+					p.conn.setAutoCommit(true);
+					System.out.println("Transaction failed");
+					return;
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
 			// if (!rs_1.next()) {
 			// try {
 			// p.conn.rollback();
@@ -871,25 +921,24 @@ public class Queries {
 	}
 
 	public static void totalExpenses(User p) {
-		PreparedStatement s24_1 = null;
-		PreparedStatement s24_2 = null;
+		PreparedStatement s24 = null;
 
 		try {
-			p.conn.setAutoCommit(false);
 			p.in.nextLine();
-			System.out.println("\nTotal shipping cost");
-			s24_1 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost) FROM `Order`");
-			int shippingCost = 0;
-			ResultSet rs1 = s24_1.executeQuery();
-			System.out.println("###################################");
-			System.out.println("Total shipping cost");
-			System.out.println("###################################");
+			// System.out.println("\nTotal shipping cost");
+			// s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(shipping_cost)
+			// FROM `Order`");
+			// int shippingCost = 0;
+			// ResultSet rs1 = s24.executeQuery();
+			// System.out.println("###################################");
+			// System.out.println("Total shipping cost");
+			// System.out.println("###################################");
 
-			while (rs1.next()) {
-				shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
-				System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
-				System.out.println();
-			}
+			// while (rs1.next()) {
+			// shippingCost = Integer.parseInt(rs1.getString("SUM(shipping_cost)"));
+			// System.out.printf("%s", rs1.getString("SUM(shipping_cost)"));
+			// System.out.println();
+			// }
 
 			// if (!rs1.next()) {
 			// try {
@@ -902,15 +951,15 @@ public class Queries {
 			// }
 			// }
 
-			s24_2 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
-			int salaries = 0;
-			ResultSet rs2 = s24_2.executeQuery();
+			s24 = (PreparedStatement) p.conn.prepareStatement("SELECT SUM(amount) FROM `Pays`");
+			// int salaries = 0;
+			ResultSet rs2 = s24.executeQuery();
 			System.out.println("###################################");
 			System.out.println("Total payment to editors & authors");
 			System.out.println("###################################");
 
 			while (rs2.next()) {
-				salaries = Integer.parseInt(rs2.getString("SUM(amount)"));
+				// salaries = Integer.parseInt(rs2.getString("SUM(amount)"));
 				System.out.printf("%s", rs2.getString("SUM(amount)"));
 				System.out.println();
 			}
@@ -926,11 +975,10 @@ public class Queries {
 			// }
 			// }
 
-			System.out.printf("Total expenses on contributor salary plus shipping cost is %d ",
-					shippingCost + salaries);
+			// System.out.printf("Total expenses on contributor salary is %d ", salaries);
 
-			p.conn.commit();
-			p.conn.setAutoCommit(true);
+			// p.conn.commit();
+			// p.conn.setAutoCommit(true);
 		} catch (Exception e) {
 			System.out.println("Error >>" + e);
 		}
