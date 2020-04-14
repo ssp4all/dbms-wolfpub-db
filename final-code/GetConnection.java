@@ -10,7 +10,6 @@ API. Here username for database access is "test" and
 password = "test"
 */
 
-
 import java.sql.*;
 
 public class GetConnection {

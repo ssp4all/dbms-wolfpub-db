@@ -5,6 +5,8 @@
 - [Problem Statment](#Problem-Statment)
 - [Solution](#Solution)
 - [Contributors](#Contributors)
+- [Screenshots](#Screenshots)
+
 
 ### Problem Statment
     You are to build a database system, WolfPubDb, for the WolfCity publishing house. The database system will be used by the management and editors of the publishing house, and should maintain information on at least the following: 
@@ -73,11 +75,16 @@ from terminal
 Move to the DB from terminal
 ```mysql -u test -p wolfpubdb```
 
+
+
+### Screenshots
+![intro](screenshots/f.png)
+![intro](screenshots/d.png)
+![intro](screenshots/s.png)
+
 ### Contributors
 - Suraj Pawar
 - Amit Ghetiya
 - Ankit Tiwari
 - Rishal Shah
-
-scp -r dbms-wolfpub-db spawar2@remote.eos.ncsu.edu:/afs/unity.ncsu.edu/users/s/spawar
 
