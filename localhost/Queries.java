@@ -845,8 +845,10 @@ public class Queries {
 			String publicationId = "";
 			System.out.println();
 
+			// Check if the order contained issues. If yes, execute this block
 			if (bookId.equals("null") == true) {
 				PreparedStatement s19_1 = null;
+				// Retrieve publication_id of the issue
 				s19_1 = (PreparedStatement) p.conn
 						.prepareStatement("SELECT publication_id FROM Issue where issue_id = ?");
 				s19_1.setString(1, issueId);
@@ -854,8 +856,11 @@ public class Queries {
 				while (rs1.next()) {
 					publicationId = rs1.getString("publication_id");
 				}
-			} else {
+			}
+			// Check if the order contained books. If yes, execute this block
+			else {
 				PreparedStatement s19_2 = null;
+				// Retrieve publication_id of the book
 				s19_2 = (PreparedStatement) p.conn.prepareStatement("SELECT publication_id FROM Book where isbn = ?");
 				s19_2.setString(1, bookId);
 				ResultSet rs2 = s19_2.executeQuery();
@@ -863,6 +868,8 @@ public class Queries {
 					publicationId = rs2.getString("publication_id");
 				}
 			}
+
+			// Condition to check whether the above query was executed successfully
 			if (publicationId == "") {
 				try {
 					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
@@ -877,6 +884,8 @@ public class Queries {
 				bookId = null;
 			else
 				issueId = null;
+
+			// Insert a record into `Order` table
 			s19 = (PreparedStatement) p.conn.prepareStatement("INSERT INTO `Order` VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			s19.setString(1, orderId);
 			s19.setString(2, shippingCost);
@@ -890,6 +899,7 @@ public class Queries {
 			s19.setString(10, publicationId);
 			s19.setString(11, deliveryDate);
 
+			// Condition to check whether new order was successfully added to the table
 			if (s19.executeUpdate() == 1) {
 				System.out.println("New Order Added");
 			} else {
@@ -951,6 +961,8 @@ public class Queries {
 
 			System.out.println("Enter the order_id of the order for which payment received :");
 			String orderId = p.in.nextLine();
+
+			// Get shipping_cost , cost of order for a given order_id
 			s21_1 = (PreparedStatement) p.conn.prepareStatement(
 					"SELECT shipping_cost, no_of_copies*price AS order_cost, distributor_id FROM `Order` WHERE order_id = ?");
 			s21_1.setString(1, orderId);
@@ -965,6 +977,7 @@ public class Queries {
 				distributorId = rs_1.getString("distributor_id");
 			}
 
+			// Condition to check if retrieval of shipping_cost, order total was successful
 			if (distributorId == "") {
 				try {
 					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
@@ -976,9 +989,11 @@ public class Queries {
 				}
 			}
 
+			// Update payment_status to paid
 			s21_3 = (PreparedStatement) p.conn
 					.prepareStatement("UPDATE `Order` SET payment_status = 'paid' WHERE order_id = ?");
 			s21_3.setString(1, orderId);
+			// Update balance associated to the distributor
 			s21_2 = (PreparedStatement) p.conn
 					.prepareStatement("UPDATE Distributor SET balance = balance - (?+?) WHERE distributor_id = ?");
 
@@ -987,6 +1002,7 @@ public class Queries {
 
 			s21_2.setString(3, distributorId);
 
+			// Condition to check if updation was successful
 			if (s21_3.executeUpdate() != 1 || s21_2.executeUpdate() != 1) {
 				try {
 					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
