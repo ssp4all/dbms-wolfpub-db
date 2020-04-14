@@ -1,3 +1,16 @@
+/*
+
+GetConnection.java
+
+Connect with Database = "wolfpubdb" which is in 
+same directory with name wolfpubdb.sql
+
+Create connection to the MariaDB server using JDBC 
+API. Here username for database access is "test" and 
+password = "test"
+*/
+
+
 import java.sql.*;
 
 public class GetConnection {

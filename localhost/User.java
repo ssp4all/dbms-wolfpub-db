@@ -1,3 +1,15 @@
+/*
+
+User.java
+
+There are two roles which comes with different functionalities
+1) Manager (Admin)
+2) Contributors (Users)
+
+A menu driven program provides the interface so user can 
+chose role and perform respective operations.
+*/
+
 import java.util.Scanner;
 import java.sql.*;
 
