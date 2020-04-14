@@ -1067,7 +1067,7 @@ public class Queries {
 			p.in.nextLine();
 			// System.out.println("\nTotal Revenue");
 			s23 = (PreparedStatement) p.conn
-					.prepareStatement("SELECT SUM(no_of_copies*price + shipping_cost) AS total FROM `Order`");
+					.prepareStatement("SELECT SUM(no_of_copies*price + shipping_cost) AS total FROM `Order` where payment_status = 'paid'");
 
 			ResultSet rs = s23.executeQuery();
 			System.out.println("###################################");
