@@ -827,7 +827,7 @@ public class Queries {
 		Queries.showTable(p, table);
 		PreparedStatement s19 = null;
 		try {
-			p.conn.setAutoCommit(false);
+			p.conn.setAutoCommit(false); // Turn off auto commit
 			p.in.nextLine();
 			System.out.println(
 					"\nEnter the new order details with \nbook / issue of a publication for a distributor :\n1) Order ID\n2) Shipping cost\n3) Price\n4) Order date\n5) Number of copies\n6) Book ID\n7) Issue ID\n8) Payment Status\n9) Distributor ID\n10) Delivery date");
@@ -865,7 +865,7 @@ public class Queries {
 			}
 			if (publicationId == "") {
 				try {
-					p.conn.rollback();
+					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
 					p.conn.setAutoCommit(true);
 					System.out.println("Transaction failed");
 					return;
@@ -894,11 +894,11 @@ public class Queries {
 				System.out.println("New Order Added");
 			} else {
 				System.out.println("Sorry, the order couldn't be added");
-				p.conn.rollback();
+				p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
 				p.conn.setAutoCommit(true);
 				System.out.println("Transaction failed");
 			}
-			p.conn.commit();
+			p.conn.commit(); // Manually commit changes if the control has reached until this point
 			p.conn.setAutoCommit(true);
 
 		} catch (Exception e) {
@@ -947,7 +947,7 @@ public class Queries {
 		PreparedStatement s21_3 = null;
 		try {
 			p.in.nextLine();
-			p.conn.setAutoCommit(false);
+			p.conn.setAutoCommit(false); // Turn off auto commit
 
 			System.out.println("Enter the order_id of the order for which payment received :");
 			String orderId = p.in.nextLine();
@@ -967,7 +967,7 @@ public class Queries {
 
 			if (distributorId == "") {
 				try {
-					p.conn.rollback();
+					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
 					p.conn.setAutoCommit(true);
 					System.out.println("Transaction failed");
 					return;
@@ -989,7 +989,7 @@ public class Queries {
 
 			if (s21_3.executeUpdate() != 1 || s21_2.executeUpdate() != 1) {
 				try {
-					p.conn.rollback();
+					p.conn.rollback(); // Rollback if the query above this block wasn't executed properly
 					p.conn.setAutoCommit(true);
 					System.out.println("Transaction failed");
 					return;
@@ -997,7 +997,7 @@ public class Queries {
 					System.out.println(e);
 				}
 			}
-			p.conn.commit();
+			p.conn.commit(); // Manually commit changes if the control has reached until this point
 			p.conn.setAutoCommit(true);
 
 		} catch (Exception e) {
