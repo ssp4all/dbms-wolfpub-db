@@ -1,4 +1,5 @@
-# WolfPubDB
+# WolfPubDB [![HitCount](http://hits.dwyl.com/ssp4all/dbms-wolfpub-db.svg)](http://hits.dwyl.com/ssp4all/dbms-wolfpub-db)
+
 
 ## Index
 
