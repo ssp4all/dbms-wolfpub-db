@@ -1,5 +1,15 @@
+/*
 
-// import java.sql.ResultSet;
+Queries.java
+
+Source code for all the queries to retrieve
+data from wolfpubdb database.
+
+Each function consists of input and ouput 
+for each task mentiond in tasks/operation section
+in the given project narrative (please refer README.md)
+*/
+
 import java.sql.*;
 
 public class Queries {

@@ -1,4 +1,15 @@
-// import java.sql.*;
+/*
+
+Wolfcity.java
+This file should be executed first.
+
+$ javac Wolfcity.java
+$ java Wolfcity
+
+Contains main function which creates connection 
+object to interact with database.
+*/
+
 public class Wolfcity {
 
 	// The main() which is called when Wolfcity.java is execute on command line
